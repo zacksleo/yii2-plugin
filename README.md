@@ -46,6 +46,7 @@ For expamle, file `ExamplePlugin.php`:
 The word `Example` (without word `Plugin`) is the plugin's __identify__ (case sensitive).
 ###Implement The Plugin
 To implement the plugin and makes it work, you should inherit these method and initialize some properties.
+
     class ExamplePlugin extends Plugin {
         
         public function init() {
