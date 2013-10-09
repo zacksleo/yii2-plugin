@@ -3,7 +3,7 @@
  * Yii-Plugin module
  * 
  * @author Viking Robin <healthlolicon@gmail.com> 
- * @link https://github.com/health901/yii-plugins
+ * @link https://github.com/health901/yii-plugin
  * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
  * @version 1.0
  */
@@ -13,6 +13,10 @@ class PluginBase extends CBaseController
 	public $pluginDir;
 	public $viewDir = 'views';
 	public $i18n;
+
+	public function __construct(){
+		$this->init();
+	}
 
 	public function __get($name)
 	{
@@ -54,6 +58,8 @@ class PluginBase extends CBaseController
 
 	public function render($view, $data = NULL, $return = FALSE)
 	{
+		if(!$view)
+			return FALSE;
 		if (($viewFile = $this->getViewFile($view)) !== FALSE) {
 			return $this->renderFile($viewFile, $data, $return);
 		}
@@ -64,7 +70,7 @@ class PluginBase extends CBaseController
 		$ext = '.php';
 		if (strpos($viewName, '.'))
 			$viewName = str_replace('.', '/', $viewName);
-		$root = $this->pluginDir . DIRECTORY_SEPARATOR . $this->viewDir;
+			$root = $this->viewDir ? $this->pluginDir . DIRECTORY_SEPARATOR . $this->viewDir : $this->pluginDir;
 		if ($this->i18n == 'path') {
 			$root = $root . DIRECTORY_SEPARATOR . Yii::app()->getLanguage();
 		}
@@ -75,5 +81,4 @@ class PluginBase extends CBaseController
 		}
 		return FALSE;
 	}
-
 }

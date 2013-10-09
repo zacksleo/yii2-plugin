@@ -3,7 +3,7 @@
  * Yii-Plugin module
  * 
  * @author Viking Robin <healthlolicon@gmail.com> 
- * @link https://github.com/health901/yii-plugins
+ * @link https://github.com/health901/yii-plugin
  * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
  * @version 1.0
  */
@@ -26,13 +26,15 @@ class HookRender {
 	}
 
 	public function render($pos) {
+
 		if (empty($this->hooks)) {
 			return;
-		}
+		}	
 		$hooks = $this->hooks[$pos];
 		if (!$hooks) {
 			return;
 		}
+		
 		foreach ($hooks as $hook) {
 			@include_once($hook['path'] . DIRECTORY_SEPARATOR . $hook['identify'] . 'Plugin.php');
 			$class = $hook['identify'] . 'Plugin';

@@ -5,16 +5,16 @@
 Add these array in the project config (if you have more than one entries,add these in both of them)
     
     'components' => array(
-        array(
-            'plugin' => 'application.modules.plugin.components.HookRender', # HookRender path router
-        )
+        'plugin' => array(
+            'class' => 'application.modules.plugin.components.HookRender', # HookRender path router
+        ),
     ),
     
     'modules' => array(
-        array(
-            'plugin' => 'application.modules.plugin.PluginModule', # Module path router
-            'pluginDir' => 'application.Plugins',   # Folder for plugins,make sure it is writeable.
-            'layout' => '//layout/main',            # layout of admin control panel.
+        'plugin' => array(
+            'class' => 'application.modules.plugin.PluginModule', # Module path router
+            'pluginRoot' => 'application.Plugins',   # Folder for plugins,make sure it is writeable.
+            'layout' => '//layouts/main',            # layout of admin control panel.
         )
     ),
 
@@ -50,7 +50,6 @@ To implement the plugin and makes it work, you should inherit these method and i
     class ExamplePlugin extends Plugin {
         
         public function init() {
-            $this->pluginDir = dirname(__FILE__);   #required, and it is always the same.
             // set plugin's info
             $this->identify = 'Example';            #required, the Unique id for this plugin.
             $this->name = 'Example Plugin';         #required, plugin's name for display.

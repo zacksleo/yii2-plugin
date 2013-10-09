@@ -3,7 +3,7 @@
  * Yii-Plugin module
  * 
  * @author Viking Robin <healthlolicon@gmail.com> 
- * @link https://github.com/health901/yii-plugins
+ * @link https://github.com/health901/yii-plugin
  * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
  * @version 1.0
  */
@@ -20,6 +20,12 @@ abstract class Plugin extends PluginBase
 		'icon' => '',
 		);
 
+	public function __construct(){
+		parent::__construct();
+		$class = get_class($this);
+		$reflection = new ReflectionClass($class);
+		$this->pluginDir = dirname($reflection->getFileName());
+	}
 	/**
 	 * *************************************************
 	 *  methods below can be overridden or implemented
