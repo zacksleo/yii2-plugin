@@ -20,12 +20,19 @@ class m131008_064034_plugin extends CDbMigration
 			`enable` tinyint(1) NOT NULL DEFAULT '0',
 			PRIMARY KEY (`plugin_id`),
 			UNIQUE KEY `identify_UNIQUE` (`identify`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		CREATE TABLE `".$this->Table('plugins_setting')."` (
+			`plugin` varchar(45) NOT NULL,
+			`key` varchar(45) NOT NULL,
+			`value` text,
+			PRIMARY KEY (`plugin`,`key`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8");
 	}
 
 	public function safeDown()
 	{
 		$this->dropTable($this->table('plugins'));
+		$this->dropTable($this->table('plugins_setting'));
 	}
 
 	public function Table($table){

@@ -15,7 +15,8 @@ class PluginBase extends CBaseController
 	public $i18n;
 
 	public function __construct(){
-		$this->init();
+		if(method_exists($this,'init'))
+			$this->init();
 	}
 
 	public function __get($name)
@@ -56,6 +57,15 @@ class PluginBase extends CBaseController
 		return '//' . $_SERVER['HTTP_HOST'] . Yii::app()->getAssetManager()->publish($path);
 	}
 
+	public function getSetting($key)
+	{
+		return PluginsSetting::model()->get($this->identify, $key);
+	}
+
+	public function setSetting($key,$value=NULL)
+	{
+		return PluginsSetting::model()->set($this->identify, $key, $value);
+	}
 	public function render($view, $data = NULL, $return = FALSE)
 	{
 		if(!$view)
@@ -70,7 +80,7 @@ class PluginBase extends CBaseController
 		$ext = '.php';
 		if (strpos($viewName, '.'))
 			$viewName = str_replace('.', '/', $viewName);
-			$root = $this->viewDir ? $this->pluginDir . DIRECTORY_SEPARATOR . $this->viewDir : $this->pluginDir;
+		$root = $this->viewDir ? $this->pluginDir . DIRECTORY_SEPARATOR . $this->viewDir : $this->pluginDir;
 		if ($this->i18n == 'path') {
 			$root = $root . DIRECTORY_SEPARATOR . Yii::app()->getLanguage();
 		}
@@ -81,4 +91,5 @@ class PluginBase extends CBaseController
 		}
 		return FALSE;
 	}
+
 }

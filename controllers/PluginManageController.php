@@ -25,18 +25,18 @@ class PluginManageController extends CController
 		return array(
 			array('allow',
 				'users' => array('@'),
-			),
+				),
 			array('deny',
 				'users' => array('*'),
-			),
-		);
+				),
+			);
 	}
 
 	public function filters()
 	{
 		return array(
 			'accessControl',
-		);
+			);
 	}
 
 	public function init()
@@ -59,14 +59,14 @@ class PluginManageController extends CController
 		foreach ($this->plugins as $plugin) {
 			switch ($this->PluginManger->Status($plugin['plugin'])) {
 				case PluginManger::STATUS_Enabled:
-					$plugins[PluginManger::STATUS_Enabled][] = $plugin;
-					break;
+				$plugins[PluginManger::STATUS_Enabled][] = $plugin;
+				break;
 				case PluginManger::STATUS_Installed:
-					$plugins[PluginManger::STATUS_Installed][] = $plugin;
-					break;
+				$plugins[PluginManger::STATUS_Installed][] = $plugin;
+				break;
 				case PluginManger::STATUS_NotInstalled:
-					$plugins[PluginManger::STATUS_NotInstalled][] = $plugin;
-					break;
+				$plugins[PluginManger::STATUS_NotInstalled][] = $plugin;
+				break;
 			}
 		}
 		$this->render('index', array('plugins' => $plugins));
@@ -94,6 +94,7 @@ class PluginManageController extends CController
 				exit;
 			}
 			$AdminCp = new $class();
+			$AdminCp->Owner($plugin);
 			ob_start();
 			$AdminCp->run();
 			$content = ob_get_contents();
@@ -110,8 +111,11 @@ class PluginManageController extends CController
 
 	}
 
-	public function actionInstall($id)
+	public function actionInstall()
 	{
+		if(!isset($_POST['id']))
+			$this->_ajax(0);
+		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
 		$result = $this->PluginManger->Install($plugin);
 		if ($result) {
@@ -121,8 +125,11 @@ class PluginManageController extends CController
 		}
 	}
 
-	public function actionUninstall($id)
+	public function actionUninstall()
 	{
+		if(!isset($_POST['id']))
+			$this->_ajax(0);
+		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
 		$result = $this->PluginManger->Uninstall($plugin);
 		if ($result) {
@@ -132,8 +139,11 @@ class PluginManageController extends CController
 		}
 	}
 
-	public function actionEnable($id)
+	public function actionEnable()
 	{
+		if(!isset($_POST['id']))
+			$this->_ajax(0);
+		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
 		if ($this->PluginManger->Enable($plugin)) {
 			$this->_setMenu(TRUE);
@@ -143,8 +153,11 @@ class PluginManageController extends CController
 		}
 	}
 
-	public function actionDisable($id)
+	public function actionDisable()
 	{
+		if(!isset($_POST['id']))
+			$this->_ajax(0);
+		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
 		if ($this->PluginManger->Disable($plugin)) {
 			$this->_setMenu(TRUE);

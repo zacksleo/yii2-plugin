@@ -143,6 +143,11 @@ abstract class Plugin extends PluginBase
 		return $hook;
 	}
 
+	public function clear(){
+		PluginsSetting::model()->clear($this->identify);
+		return TRUE;
+	}
+
 	public function __get($name)
 	{
 		$value = parent::__get($name);

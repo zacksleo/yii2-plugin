@@ -29,7 +29,7 @@ class PluginManger {
 	}
 
 	public function Uninstall($plugin) {
-		if (!$plugin->Uninstall()) {
+		if (!$plugin->Uninstall() && !$plugin->clear()) {
 			return FALSE;
 		}
 		if (!$this->UnregisterPlugin($plugin)) {
