@@ -33,6 +33,11 @@ abstract class Plugin extends PluginBase
 	 */
 
 	/**
+	 * initialize plugin, set plugin infos
+	 */
+	abstract public function init();
+	
+	/**
 	 * return an array of hooks,all plugins have to implement this method.
 	 * @return array Hooks list
 	 */
