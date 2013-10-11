@@ -18,7 +18,7 @@ class PluginController extends CController {
 		$id = $_GET['id'];
 		$plugin = Plugins::model()->findbyAttributes(array('identify' => $id, 'enable' => 1));
 		if (!$plugin) {
-			$this->render('miss', array('name', $id));
+			$this->render('miss', array('name'=>$id));
 			exit;
 		}
 		if (!isset($_GET['action'])) {

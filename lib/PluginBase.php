@@ -57,15 +57,34 @@ class PluginBase extends CBaseController
 		return '//' . $_SERVER['HTTP_HOST'] . Yii::app()->getAssetManager()->publish($path);
 	}
 
+	/**
+	 * get coustom plugin setting
+	 * @param  string $key setting key
+	 * @return string      setting value
+	 */
 	public function getSetting($key)
 	{
 		return PluginsSetting::model()->get($this->identify, $key);
 	}
 
+	/**
+	 * set coustom plugin setting
+	 * @param string $key setting key
+	 * @param string $value setting value
+	 * @return boolean
+	 */
 	public function setSetting($key,$value=NULL)
 	{
 		return PluginsSetting::model()->set($this->identify, $key, $value);
 	}
+
+	/**
+	 * render a view 
+	 * @param  string 	$view   name of the view to be rendered, the root is <PluginDir>/<viewDir>
+	 * @param  array 	$data   data to be extracted into PHP variables and made available to the view script
+	 * @param  boolean 	$return whether the rendering result should be returned instead of being displayed to end users.
+	 * @return string          the rendering result. Null if the rendering result is not required.
+	 */
 	public function render($view, $data = NULL, $return = FALSE)
 	{
 		if(!$view)

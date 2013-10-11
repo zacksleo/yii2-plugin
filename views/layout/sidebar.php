@@ -5,11 +5,11 @@
 		$this->widget('bootstrap.widgets.TbMenu', array(
 			'type' => 'list',
 			'items' => array_merge(array(
-				array('label' => '插件管理'),
-				array('label' => '插件列表', 'icon' => 'list', 'url' => array('/plugin/PluginManage/index')),
-				array('label' => '插件市场', 'icon' => 'download-alt', 'url' => '#'),
+				array('label' => Yii::t('PluginModule.lang','Plugin Manage')),
+				array('label' => Yii::t('PluginModule.lang','Plugin List'), 'icon' => 'list', 'url' => array('/plugin/PluginManage/index')),
+				array('label' => Yii::t('PluginModule.lang','Plugin Market'), 'icon' => 'download-alt', 'url' => '#'),
 				'',
-				array('label' => '已启用插件'),
+				array('label' => Yii::t('PluginModule.lang','Enabled Plugins')),
 					), $this->menu),
 			'htmlOptions' => array('style' => 'width:200px;border:0;float: left')
 		));

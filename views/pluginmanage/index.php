@@ -58,7 +58,11 @@
 	.col-option div {
 		margin-top: 25px;
 	}
-
+	.col-option a {
+		color:black;
+		text-decoration : none;
+		margin-right: 5px;
+	}
 	.col-label .plg-name {
 		font-size: 13px;
 		font-weight: bold;
@@ -87,13 +91,13 @@ foreach ($plugins as $status => $_plugins) {
 		<?php
 		switch ($status) {
 			case PluginManger::STATUS_Enabled:
-			echo '<div class="g-plg">已启用的插件：</div>';
+			echo '<div class="g-plg">'.Yii::t("PluginModule.lang","Enabled Plugins").': </div>';
 			break;
 			case PluginManger::STATUS_Installed:
-			echo '<div class="g-plg">停用的插件：</div>';
+			echo '<div class="g-plg">'.Yii::t("PluginModule.lang","Disabled Plugins").': </div>';
 			break;
 			case PluginManger::STATUS_NotInstalled:
-			echo '<div class="g-plg">未安装的插件：</div>';
+			echo '<div class="g-plg">'.Yii::t("PluginModule.lang","Not Installed Plugins").': </div>';
 			break;
 		}
 		?>
@@ -118,7 +122,7 @@ foreach ($plugins as $status => $_plugins) {
 				</div>
 			</div>
 			<div class="col-desc fl">
-				<div><em>描述: </em><?php echo $plugin['plugin']->description; ?></div>
+				<div><em><?php echo Yii::t("PluginModule.lang","Description");?>: </em><?php echo $plugin['plugin']->description; ?></div>
 			</div>
 			<div class="col-option fl">
 				<div>
@@ -126,26 +130,26 @@ foreach ($plugins as $status => $_plugins) {
 					switch ($status) {
 						case PluginManger::STATUS_Enabled:
 						?>
-						<span><a href="javascript:;" data-id="<?php echo $plugin['plugin']->identify; ?>" class="p_disable">停用</a></span>
-						<span><?php echo CHtml::link('设置',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify))); ?></span>
-						<span><a href="javascript:;" data-id="<?php echo $plugin['plugin']->identify; ?>" class="p_uninstall">卸载</a></span>
+						<span><?php echo CHtml::link('<i class="icon-pause"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_disable','title' => Yii::t("PluginModule.lang",'Disable'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-cog"></i>',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify)),array('title'=>Yii::t("PluginModule.lang",'Setting'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-remove"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_uninstall','title' => Yii::t("PluginModule.lang",'Uninstall'))); ?></span>
 						<?php
 						break;
 						case PluginManger::STATUS_Installed:
 						?>
-						<span><a href="javascript:;" data-id="<?php echo $plugin['plugin']->identify; ?>" class="p_enable">启用</a></span>
-						<span><?php echo CHtml::link('设置',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify))); ?></span>
-						<span><a href="javascript:;" data-id="<?php echo $plugin['plugin']->identify; ?>" class="p_uninstall">卸载</a></span>
+						<span><?php echo CHtml::link('<i class="icon-play"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_enable','title' => Yii::t("PluginModule.lang",'Enable'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-cog"></i>',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify)),array('title'=>Yii::t("PluginModule.lang",'Setting'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-remove"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_uninstall','title' => Yii::t("PluginModule.lang",'Uninstall'))); ?></span>
 						<?php
 						break;
 						case PluginManger::STATUS_NotInstalled:
 						?>
-						<span><a href="javascript:;" data-id="<?php echo $plugin['plugin']->identify; ?>" class="p_install">安装</a></span>
+						<span><?php echo CHtml::link('<i class="icon-off"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_install','title' => Yii::t("PluginModule.lang",'Install'))); ?></span>
 						<?php
 						break;
 					}
 					?>
-					<span><a href="#">查看</a></span>
+					<span><?php echo CHtml::link('<i class="icon-eye-open"></i>','#',array('title' => Yii::t("PluginModule.lang",'View'))); ?></span>
 				</div>
 			</div>
 			<div style="clear:both;"></div>
@@ -163,7 +167,7 @@ foreach ($plugins as $status => $_plugins) {
 				},'json');
 			});
 			$('.p_uninstall').click(function(){
-				if(confirm("卸载后插件数据将丢失，确定要卸载？")==true){
+				if(confirm("<?php echo Yii::t("PluginModule.lang",'Plugin data will be removed after uninstall, sure to uninstall?'); ?>")==true){
 					$.post('<?php echo $this->createUrl("/plugin/pluginManage/uninstall");?>',{id:$(this).data('id')},function(data){
 						if(data.status){
 							window.location.reload();
