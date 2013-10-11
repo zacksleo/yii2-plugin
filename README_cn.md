@@ -3,6 +3,7 @@
 Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.com/health901/Yii-Plugin/blob/master/README.md) [![中文](http://geoip.flagfox.net/flags/CN.png)](#)
 
 ---
+![cp](http://i.minus.com/ibnW5OhPBsUboA.jpg)
 ## 特点
 * 该模块提供了一个插件模式(即插即用)解决方案.
 * 插件安装卸载无须配置任何文件,可在后台进行安装,卸载,启用,停用.

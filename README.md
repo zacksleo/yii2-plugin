@@ -3,6 +3,7 @@
 Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](http://geoip.flagfox.net/flags/CN.png)](https://github.com/health901/Yii-Plugin/blob/master/README_cn.md)
 
 ---
+![cp](http://i.minus.com/ibnW5OhPBsUboA.jpg)
 ## FEATURES
 * This module provides a plugin pattern(Plug-and-Play) solustion.
 * No need to edit any file to configure plugin, it can install, uninstall, enable and disable at admin control panel.
