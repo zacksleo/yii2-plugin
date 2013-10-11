@@ -1,18 +1,28 @@
 # Plugin Module
+
+Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](http://geoip.flagfox.net/flags/CN.png)](https://github.com/health901/Yii-Plugin/blob/master/README_cn.md)
+
 ---
+## FEATURES
+* This module provides a plugin pattern(Plug-and-Play) solustion.
+* No need to edit any file to configure plugin, it can install, uninstall, enable and disable at admin control panel.
+* Plugins do not modify project files, it can be uninstall safely.
+* Extendable. Can add hooks to any views.
+
 ## Module Usage
+
 ### Install
 Add these array in the project config (if you have more than one entries,add these in both of them)
     
     'components' => array(
         'plugin' => array(
-            'class' => 'application.modules.plugin.components.HookRender', # HookRender path router
+            'class' => 'application.modules.plugin.components.HookRender', # HookRender path alias
         ),
     ),
     
     'modules' => array(
         'plugin' => array(
-            'class' => 'application.modules.plugin.PluginModule', # Module path router
+            'class' => 'application.modules.plugin.PluginModule', # Module path alias
             'pluginRoot' => 'application.Plugins',   # Folder for plugins,make sure it is writeable.
             'layout' => '//layouts/main',            # layout of admin control panel.
         )
@@ -25,18 +35,22 @@ Run sql statement in folder `sql` or apply migrate with yiic (see [Yii doc](http
 The CP url is :
     
     $this->createUrl(array('/plugin/PluginManage/index'));
+
 ### Add hooks in the views
-just add this to the position you want to be hooked
-Yii::app()->plugin->render('Hook_Name');  # Name the Hook Position and told it to your plugin developers. 
+
+    #just add this to the position you want to be hooked
+    Yii::app()->plugin->render('Hook_Name');  # Name the Hook Position and told it to your plugin developers. 
+
 ### Requirement
-* Jquery (for control panel)
-* Yii-bootstrap (control panel interface)
+* [Yii-bootstrap](http://www.cniska.net/yii-bootstrap/) (control panel's menu, if you do not want it, modify `views/layout/sidebar`)
 
 ---
 
 ## Plugin Develop
+
 ### Create A Plugin
 For Create a plugin, you need to inherit the class `Plugin`.
+
 And the class name and class file name should end with the word `Plugin`.
 For expamle, file `ExamplePlugin.php`:
     
@@ -49,7 +63,7 @@ To implement the plugin and makes it work, you should inherit these method and i
 
     class ExamplePlugin extends Plugin {
         
-        public function init() {
+        public function init() {                    #initialize,config plugin's info, required
             // set plugin's info
             $this->identify = 'Example';            #required, the Unique id for this plugin.
             $this->name = 'Example Plugin';         #required, plugin's name for display.
@@ -92,6 +106,8 @@ To implement the plugin and makes it work, you should inherit these method and i
         public function admincp() {
             // You can put codes here.
             // Like some inputs
+            $this->setSetting('key','value');   # write setting
+            echo $this->getSetting('key');      # read setting
         }
         
         // Here you can put some code at the Installation and Uninstallation
@@ -109,5 +125,5 @@ To implement the plugin and makes it work, you should inherit these method and i
         }
         
         // Then, you created a simple plugin
-        // For advanced usage, see examples
+        // For advanced usage, see demos
     }

@@ -1,4 +1,7 @@
-<?php $this->beginContent($this->adminLayout); ?>
+<?php 
+	Yii::app()->clientScript->registerCoreScript('jquery');
+	$this->beginContent($this->adminLayout); 
+?>
 <div>
 	<div id="sidebar-nav">
 		<?php
