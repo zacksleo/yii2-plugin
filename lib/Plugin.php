@@ -156,7 +156,9 @@ abstract class Plugin extends PluginBase
 	public function __get($name)
 	{
 		$value = parent::__get($name);
-		if (!$value && isset($this->info[$name])) {
+		if($value !== FALSE)
+			return $value;
+		if (isset($this->info[$name])) {
 			return htmlspecialchars($this->info[$name]);
 		}
 	}

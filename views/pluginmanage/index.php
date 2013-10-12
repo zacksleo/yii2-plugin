@@ -1,5 +1,7 @@
-<style type="text/css">
-	#tbl-plugins {
+<?php
+if(!array_key_exists('bootstrap.js', Yii::app()->clientScript->packages))
+	Yii::app()->clientScript->registerCoreScript('jquery.ui');
+$css ='#tbl-plugins {
 		width: 960px;
 		font-size: 12px;
 		line-height: 17px;
@@ -80,9 +82,8 @@
 
 	.col-desc div {
 		margin: 5px;
-	}
-</style>
-<?php
+	}';
+Yii::app()->clientScript->registerCss('auth_css_cp',$css);
 foreach ($plugins as $status => $_plugins) {
 	if (empty($_plugins))
 		continue;
@@ -130,26 +131,26 @@ foreach ($plugins as $status => $_plugins) {
 					switch ($status) {
 						case PluginManger::STATUS_Enabled:
 						?>
-						<span><?php echo CHtml::link('<i class="icon-pause"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_disable','title' => Yii::t("PluginModule.lang",'Disable'))); ?></span>
-						<span><?php echo CHtml::link('<i class="icon-cog"></i>',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify)),array('title'=>Yii::t("PluginModule.lang",'Setting'))); ?></span>
-						<span><?php echo CHtml::link('<i class="icon-remove"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_uninstall','title' => Yii::t("PluginModule.lang",'Uninstall'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-pause"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_disable','title' => Yii::t("PluginModule.lang",'Disable'),'rel'=>'tooltip')); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-cog"></i>',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify)),array('title'=>Yii::t("PluginModule.lang",'Setting'),'rel'=>'tooltip')); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-remove"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_uninstall','title' => Yii::t("PluginModule.lang",'Uninstall'),'rel'=>'tooltip')); ?></span>
 						<?php
 						break;
 						case PluginManger::STATUS_Installed:
 						?>
-						<span><?php echo CHtml::link('<i class="icon-play"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_enable','title' => Yii::t("PluginModule.lang",'Enable'))); ?></span>
-						<span><?php echo CHtml::link('<i class="icon-cog"></i>',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify)),array('title'=>Yii::t("PluginModule.lang",'Setting'))); ?></span>
-						<span><?php echo CHtml::link('<i class="icon-remove"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_uninstall','title' => Yii::t("PluginModule.lang",'Uninstall'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-play"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_enable','title' => Yii::t("PluginModule.lang",'Enable'),'rel'=>'tooltip')); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-cog"></i>',$this->createUrl('/plugin/pluginManage/setting',array('id'=>$plugin['plugin']->identify)),array('title'=>Yii::t("PluginModule.lang",'Setting'),'rel'=>'tooltip')); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-remove"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_uninstall','title' => Yii::t("PluginModule.lang",'Uninstall'),'rel'=>'tooltip')); ?></span>
 						<?php
 						break;
 						case PluginManger::STATUS_NotInstalled:
 						?>
-						<span><?php echo CHtml::link('<i class="icon-off"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_install','title' => Yii::t("PluginModule.lang",'Install'))); ?></span>
+						<span><?php echo CHtml::link('<i class="icon-off"></i>','javascript:;',array('data-id'=>$plugin['plugin']->identify,'class'=>'p_install','title' => Yii::t("PluginModule.lang",'Install'),'rel'=>'tooltip')); ?></span>
 						<?php
 						break;
 					}
 					?>
-					<span><?php echo CHtml::link('<i class="icon-eye-open"></i>','#',array('title' => Yii::t("PluginModule.lang",'View'))); ?></span>
+					<span><?php echo CHtml::link('<i class="icon-eye-open"></i>','#',array('title' => Yii::t("PluginModule.lang",'View'),'rel'=>'tooltip')); ?></span>
 				</div>
 			</div>
 			<div style="clear:both;"></div>

@@ -94,6 +94,158 @@ class PluginBase extends CBaseController
 		}
 	}
 
+	/**
+	 * Creates a URL for the specified action defined in plugin.
+	 * @param  string  $action   plugin action name of this url
+	 * @param  array   $params   additional GET parameters (name=>value). Both the name and value will be URL-encoded. If the name is '#', the corresponding value will be treated as an anchor and will be appended at the end of the URL.
+	 * @param  boolean $absolute is a absolute url or a relative url
+	 * @return string            the constructed URL
+	 */
+	public function createUrl($action=NULL,$params = array(),$absolute = false){
+		$action = $action ? $action : $this->identify;
+		$url =  Yii::app()->createUrl('/plugin/plugin/index',array_merge($params,array('id'=>$this->identify,'action'=>$action)));
+		if($absolute){
+			$protocol = $_SERVER['HTTPS'] ? $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://' : 'http://';
+			$url = $protocol . $_SERVER['HTTP_HOST'] . $url;
+		}
+		return $url;
+	}
+
+	/**
+	 * Creates a relative URL for the specified action defined in system controllers (outside of plugin).
+	 * @param  string $route     the URL route. This should be in the format of 'ControllerID/ActionID'. If the ControllerID is not present, the current controller ID will be prefixed to the route. If the route is empty, it is assumed to be the current action. If the controller belongs to a module, the module ID will be prefixed to the route. (If you do not want the module ID prefix, the route should start with a slash '/'.)
+	 * @param  array  $params    additional GET parameters (name=>value). Both the name and value will be URL-encoded. If the name is '#', the corresponding value will be treated as an anchor and will be appended at the end of the URL.
+	 * @param  string $ampersand the token separating name-value pairs in the URL.
+	 * @return string            the constructed URL
+	 */
+	public function createSystemUrl($route, $params=array(), $ampersand='&'){
+		return Yii::app()->createUrl($route, $params, $ampersand);
+	}
+
+	/**
+	 * Redirects the browser to the specified URL
+	 * @param  string $url the URL to be redirected to
+	 */
+	public function redirect($url){
+		$url = $url ? $url : $_SERVER['REQUEST_URI'];
+		header('Location: '.$url);
+		exit;
+	}
+
+	### Cookie
+	/**
+	 * setCookie
+	 * @param string $key    cookie identify
+	 * @param mixed $value   value of cookie
+	 * @param array  $option cookie options, array(option=>value),  such as 'expire','httpOnly','domain'. 
+	 */
+	public function setCookie($key,$value = NULL ,$option = array()){
+		$options = array('expire','httpOnly','path','secure','domain');
+		$cookie = new CHttpCookie($key,$value);
+		foreach ($options as $opt) {
+			if(isset($option[$opt])){
+				$cookie->$opt = $option[$opt];
+			}
+		}
+		Yii::app()->request->cookies[$key] = $cookie;
+	}
+	/**
+	 * get a cookie
+	 * @param  string $key cookie identify
+	 * @return mixed     value of cookie
+	 */
+	public function getCookie($key){
+		return Yii::app()->request->cookies[$key];
+	}
+	/**
+	 * remove a cookie
+	 * @param  string $key cookie identify
+	 */
+	public function delCookie($key){
+		unset(Yii::app()->request->cookies[$key]);
+	}
+	/**
+	 * get all cookies
+	 * @return array cookies
+	 */
+	public function getCookies(){
+		foreach (Yii::app()->request->cookies as $cookie) {
+			$cookies[$cookie->name] = $cookie->value;
+		}
+		return $cookies;
+	}
+	/**
+	 * clear cookies
+	 */
+	public function clearCookies(){
+		Yii::app()->request->cookies->clear();
+	}
+	### Cache
+	/**
+	 * store the value with a key into cache 
+	 * @param string  $key    a key identifying the cached value
+	 * @param mixed  $value  cache value
+	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @return true if the value is successfully stored into cache, false otherwise
+	 */
+	public function setCache($key,$value,$expire=0){
+		return Yii::app()->cache->set($key,$value,$expire);
+	}
+	/**
+	 * Retrieves a value from cache with a specified key.
+	 * @param  string $key a key identifying the cached value
+	 * @return mixed      the value stored in cache, false if the value is not in the cache, expired or the dependency has changed.
+	 */
+	public function getCache($key){
+		return Yii::app()->cache->get($key);
+	}
+	/**
+	 * Deletes a value with the specified key from cache
+	 * @param  string $key the key of the value to be deleted
+	 * @return boolean      if no error happens during deletion
+	 */
+	public function delCache($key){
+		return Yii::app()->cache->delete($key);
+	}
+	/**
+	 * Deletes all values from cache. Be careful of performing this operation if the cache is shared by multiple applications.
+	 * @return boolean whether the flush operation was successful.
+	 */
+	public function clearCache(){
+		return Yii::app()->cache->flush();
+	}
+	### Session
+	/**
+	 * Adds a session variable. Note, if the specified name already exists, the old value will be removed first.
+	 * @param string $key   session variable name
+	 * @param mixed $value  session variable value 
+	 */
+	public function setSession($key,$value){
+		Yii::app()->session->add($key,$value);
+	}
+	/**
+	 * Returns the session variable value with the session variable name.
+	 * @param  string $key   session variable name
+	 * @return mixed    session variable value 
+	 */
+	public function getSession($key){
+		return ii::app()->session->get($key);
+	}
+	/**
+	 * Removes a session variable.
+	 * @param  string $key   session variable name
+	 * @return mixed 	the removed value, null if no such session variable. 
+	 */
+	public function delSession($key){
+		return Yii::app()->session->remove($key);
+	}
+	/**
+	 * Frees all session variables and destroys all data registered to a session.
+	 */
+	public function clearSession(){
+		Yii::app()->session->destroy();
+	}
+	##################################################
 	public function getViewFile($viewName)
 	{
 		$ext = '.php';
