@@ -2,88 +2,88 @@
 if(!array_key_exists('bootstrap.js', Yii::app()->clientScript->packages))
 	Yii::app()->clientScript->registerCoreScript('jquery.ui');
 $css ='#tbl-plugins {
-		width: 960px;
-		font-size: 12px;
-		line-height: 17px;
-		margin-bottom: 30px;
-	}
+	width: 960px;
+	font-size: 12px;
+	line-height: 17px;
+	margin-bottom: 30px;
+}
 
 	#tbl-plugins .g-plg {
-		font-size: 15px;
-		font-weight: bold;
-		margin-bottom: 5px;
-	}
+font-size: 15px;
+font-weight: bold;
+margin-bottom: 5px;
+}
 
-	.col {
-		border: 1px solid #EEE;
-		border-top: 3px solid #DDD;
-		padding: 5px;
-		background: #F3F3F5;
-	}
+.col {
+	border: 1px solid #EEE;
+	border-top: 3px solid #DDD;
+	padding: 5px;
+	background: #F3F3F5;
+}
 
-	.col .fl {
-		float: left;
-		min-height: 72px;
-	}
+.col .fl {
+	float: left;
+	min-height: 72px;
+}
 
-	.col .fr {
-		float: right;
-		min-height: 72px;
-	}
+.col .fr {
+	float: right;
+	min-height: 72px;
+}
 
-	.col-img {
-		width: 90px;
-	}
+.col-img {
+	width: 90px;
+}
 
-	.col-label {
-		width: 250px;
-	}
+.col-label {
+	width: 250px;
+}
 
-	.col-desc {
-		width: 488px;
-		color: #333;
-	}
+.col-desc {
+	width: 488px;
+	color: #333;
+}
 
-	.col-option {
-		width: 120px;
-		text-align: center;
-	}
+.col-option {
+	width: 120px;
+	text-align: center;
+}
 
-	.col-img img {
-		display: block;
-	}
+.col-img img {
+	display: block;
+}
 
-	.col-desc em {
-		font-style: normal;
-	}
+.col-desc em {
+	font-style: normal;
+}
 
-	.col-option div {
-		margin-top: 25px;
-	}
-	.col-option a {
-		color:black;
-		text-decoration : none;
-		margin-right: 5px;
-	}
-	.col-label .plg-name {
-		font-size: 13px;
-		font-weight: bold;
-		margin-top: 5px;
-	}
+.col-option div {
+	margin-top: 25px;
+}
+.col-option a {
+	color:black;
+	text-decoration : none;
+	margin-right: 5px;
+}
+.col-label .plg-name {
+	font-size: 13px;
+	font-weight: bold;
+	margin-top: 5px;
+}
 
-	.col-label .plg-id {
-		font-size: 11px;
-		margin-top: 5px;
-	}
+.col-label .plg-id {
+	font-size: 11px;
+	margin-top: 5px;
+}
 
-	.col-label .plg-cp {
-		margin-top: 10px;
-	}
+.col-label .plg-cp {
+	margin-top: 10px;
+}
 
-	.col-desc div {
-		margin: 5px;
-	}';
-Yii::app()->clientScript->registerCss('auth_css_cp',$css);
+.col-desc div {
+	margin: 5px;
+}';
+Yii::app()->clientScript->registerCss('plugin_css_cp',$css);
 foreach ($plugins as $status => $_plugins) {
 	if (empty($_plugins))
 		continue;
@@ -157,38 +157,37 @@ foreach ($plugins as $status => $_plugins) {
 		</div>
 		<?php } ?>
 	</div>
-	<?php } ?>
-	<script type="text/javascript">
-		$(function(){
-			$('.p_install').click(function(){
-				$.post('<?php echo $this->createUrl("/plugin/pluginManage/install");?>',{id:$(this).data('id')},function(data){
-					if(data.status){
-						window.location.reload();
-					}
-				},'json');
-			});
-			$('.p_uninstall').click(function(){
-				if(confirm("<?php echo Yii::t("PluginModule.lang",'Plugin data will be removed after uninstall, sure to uninstall?'); ?>")==true){
-					$.post('<?php echo $this->createUrl("/plugin/pluginManage/uninstall");?>',{id:$(this).data('id')},function(data){
-						if(data.status){
-							window.location.reload();
-						}
-					},'json');
-				}
-			});
-			$('.p_enable').click(function(){
-				$.post('<?php echo $this->createUrl("/plugin/pluginManage/enable");?>',{id:$(this).data('id')},function(data){
-					if(data.status){
-						window.location.reload();
-					}
-				},'json');
-			});
-			$('.p_disable').click(function(){
-				$.post('<?php echo $this->createUrl("/plugin/pluginManage/disable");?>',{id:$(this).data('id')},function(data){
-					if(data.status){
-						window.location.reload();
-					}
-				},'json');
-			});
-		});
-</script>
+	<?php } 
+	$plugin_js_cp='jQuery(".p_install").click(function(){
+		jQuery.post("'.$this->createUrl("/plugin/pluginManage/install").'",{id:jQuery(this).data("id")},function(data){
+			if(data.status){
+				window.location.reload();
+			}
+		},"json");
+});
+jQuery(".p_uninstall").click(function(){
+	if(confirm("'.Yii::t("PluginModule.lang","Plugin data will be removed after uninstall, sure to uninstall?").'")==true){
+		jQuery.post("'.$this->createUrl("/plugin/pluginManage/uninstall").'",{id:jQuery(this).data("id")},function(data){
+			if(data.status){
+				window.location.reload();
+			}
+		},"json");
+	}else{
+		jQuery(this).mouseout();
+	}
+});
+jQuery(".p_enable").click(function(){
+	jQuery.post("'.$this->createUrl("/plugin/pluginManage/enable").'",{id:jQuery(this).data("id")},function(data){
+		if(data.status){
+			window.location.reload();
+		}
+	},"json");
+});
+jQuery(".p_disable").click(function(){
+	jQuery.post("'.$this->createUrl("/plugin/pluginManage/disable").'",{id:jQuery(this).data("id")},function(data){
+		if(data.status){
+			window.location.reload();
+		}
+	},"json");
+});';
+Yii::app()->clientScript->registerScript('auth_cp_1',$plugin_js_cp,CClientScript::POS_READY);
