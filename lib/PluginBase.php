@@ -97,7 +97,7 @@ class PluginBase extends CBaseController {
 	 * @return string            the constructed URL
 	 */
 	public function createUrl($action = NULL, $params = array(), $absolute = false) {
-		if($action){
+		if(!$action){
 			$url = Yii::app()->createUrl('/plugin/plugin/index', array_merge($params, array('id' => $this->identify, 'action' => $action)));
 		}else{
 			$url = Yii::app()->createUrl('/plugin/plugin/index', array_merge($params, array('id' => $this->identify)));
