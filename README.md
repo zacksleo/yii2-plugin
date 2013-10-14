@@ -9,7 +9,7 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](htt
 * No need to edit any file to configure plugin, it can install, uninstall, enable and disable at admin control panel.
 * Plugins do not modify project files, it can be uninstall safely.
 * Extendable. Can add hooks to any views.
-* Encapsulation Yii functions, easy for non-Yii developer to create a plugin
+* Encapsulate Yii functions, easy for non-Yii developer to create a plugin
 
 ## Module Usage
 
