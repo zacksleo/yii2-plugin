@@ -9,6 +9,7 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
 * 插件安装卸载无须配置任何文件,可在后台进行安装,卸载,启用,停用.
 * 插件不修改项目文件,可安全卸载
 * 可扩展.可在任意界面加入钩子(插件位)
+* 封装Yii函数, 非Yii开发者也能快速开发插件
 
 ## 模块使用
 ### 安装
@@ -100,6 +101,12 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
             echo $this->createUrl('page',array('param'=>'test'));
         }
         
+        public function actionExample(){
+            # 这个动作以该插件的identify命名
+            # $action 参数可以留空或者设为非真值
+            echo $this->createUrl();
+        }
+
         // 如果你的插件需要在后台进行相关配置
         // 可以继承此方法:
         public function admincp() {

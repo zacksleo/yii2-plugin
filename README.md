@@ -9,6 +9,7 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](htt
 * No need to edit any file to configure plugin, it can install, uninstall, enable and disable at admin control panel.
 * Plugins do not modify project files, it can be uninstall safely.
 * Extendable. Can add hooks to any views.
+* Encapsulation Yii functions, easy for non-Yii developer to create a plugin
 
 ## Module Usage
 
@@ -103,7 +104,13 @@ To implement the plugin and makes it work, you should inherit these method and i
             #You can create this url by call method 'createUrl'
             echo $this->createUrl('page',array('param'=>'test'));
         }
-        
+
+        public function actionExample(){
+            # this action is named with plugin's identify,
+            # param $action could be empty or false value
+            echo $this->createUrl();
+        }      
+
         // If your plugin allow to set configs at the admin control panel
         // You need to inherit this:
         

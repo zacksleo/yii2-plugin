@@ -23,9 +23,9 @@ class PluginController extends CController {
 			exit;
 		}
 		if (!isset($_GET['action'])) {
-			$action = $plugin->identify;
+			$action = strtolower($plugin->identify);
 		} else {
-			$action = $_GET['action'];
+			$action = strtolower($_GET['action']);
 		}
 		$class = $this->_loadPlugin($plugin);
 		$method = 'action' . $action;
@@ -33,7 +33,7 @@ class PluginController extends CController {
 			$class->$method();
 			Yii:app()->end();
 		}
-		$actions = $class->Actions();
+		$actions = array_change_key_case($class->Actions(),CASE_LOWER);
 		if ($action) {
 			if (isset($actions[$action])) {
 				$actionClass = $this->_loadAction($actions[$action], $plugin);
