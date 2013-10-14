@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Yii-Plugin module
  * 
@@ -12,6 +13,7 @@ class PluginModule extends CWebModule {
 	public $pluginRoot = 'application.plugin';
 	public $layout = '//layouts/main';
 	public $moduleDir;
+
 	public function init() {
 		$this->moduleDir = dirname(__FILE__);
 		Yii::setPathOfAlias('pluginModule', $this->moduleDir);

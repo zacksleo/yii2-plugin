@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Yii-Plugin module
  * 
@@ -7,8 +8,7 @@
  * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
  * @version 1.0
  */
-abstract class Plugin extends PluginBase
-{
+abstract class Plugin extends PluginBase {
 
 	private $info = array(
 		'identify' => '',
@@ -18,14 +18,15 @@ abstract class Plugin extends PluginBase
 		'description' => '',
 		'name' => '',
 		'icon' => '',
-		);
+	);
 
-	public function __construct(){
+	public function __construct() {
 		parent::__construct();
 		$class = get_class($this);
 		$reflection = new ReflectionClass($class);
 		$this->pluginDir = dirname($reflection->getFileName());
 	}
+
 	/**
 	 * *************************************************
 	 *  methods below can be overridden or implemented
@@ -36,7 +37,7 @@ abstract class Plugin extends PluginBase
 	 * initialize plugin, set plugin infos
 	 */
 	abstract public function init();
-	
+
 	/**
 	 * return an array of hooks,all plugins have to implement this method.
 	 * @return array Hooks list
@@ -48,8 +49,7 @@ abstract class Plugin extends PluginBase
 	 * return an array of Actions's class name
 	 * @return array Actions list
 	 */
-	public function Actions()
-	{
+	public function Actions() {
 		return FALSE;
 	}
 
@@ -58,8 +58,7 @@ abstract class Plugin extends PluginBase
 	 * return admincp file's name
 	 * @return string admincp 
 	 */
-	public function setAdminCp()
-	{
+	public function setAdminCp() {
 		return FALSE;
 	}
 
@@ -70,8 +69,7 @@ abstract class Plugin extends PluginBase
 	 * MUST TETURN TRUE
 	 * @return boolean
 	 */
-	public function Install()
-	{
+	public function Install() {
 		return TRUE;
 	}
 
@@ -82,11 +80,9 @@ abstract class Plugin extends PluginBase
 	 * MUST TETURN TRUE
 	 * @return boolean
 	 */
-	public function Uninstall()
-	{
+	public function Uninstall() {
 		return TRUE;
 	}
-
 
 	/**
 	 * *************************************************
@@ -101,8 +97,7 @@ abstract class Plugin extends PluginBase
 	 * @param string $prefix prefix in sql statement
 	 * @return boolean
 	 */
-	protected function Query($sql, $prefix = 'tbl_')
-	{
+	protected function Query($sql, $prefix = 'tbl_') {
 		$db = Yii::app()->db;
 		$tablePrefix = $db->tablePrefix;
 		if ($tablePrefix != $prefix)
@@ -123,18 +118,14 @@ abstract class Plugin extends PluginBase
 	 *   Internal methods
 	 * **************************************** 
 	 */
-
-
-	public function Icon()
-	{
+	public function Icon() {
 		if (!$this->icon) {
 			return FALSE;
 		}
-		return Yii::app()->getAssetManager()->publish($this->pluginDir.DIRECTORY_SEPARATOR.$this->icon);
+		return Yii::app()->getAssetManager()->publish($this->pluginDir . DIRECTORY_SEPARATOR . $this->icon);
 	}
 
-	public function LoadHook($string)
-	{
+	public function LoadHook($string) {
 		$hk = explode('.', $string);
 		if (!$hk[1])
 			return FALSE;
@@ -148,23 +139,21 @@ abstract class Plugin extends PluginBase
 		return $hook;
 	}
 
-	public function clear(){
+	public function clear() {
 		PluginsSetting::model()->clear($this->identify);
 		return TRUE;
 	}
 
-	public function __get($name)
-	{
+	public function __get($name) {
 		$value = parent::__get($name);
-		if($value !== FALSE)
+		if ($value !== FALSE)
 			return $value;
 		if (isset($this->info[$name])) {
 			return htmlspecialchars($this->info[$name]);
 		}
 	}
 
-	public function __set($name, $value)
-	{
+	public function __set($name, $value) {
 		$setter = 'set' . $name;
 		if (method_exists($this, $setter)) {
 			return $this->$setter($name, $value);
@@ -174,5 +163,6 @@ abstract class Plugin extends PluginBase
 			return FALSE;
 		}
 	}
+
 }
 

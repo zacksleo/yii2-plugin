@@ -1,6 +1,6 @@
-<?php 
-	Yii::app()->clientScript->registerCoreScript('jquery');
-	$this->beginContent($this->adminLayout); 
+<?php
+Yii::app()->clientScript->registerCoreScript('jquery');
+$this->beginContent($this->adminLayout);
 ?>
 <div>
 	<div id="sidebar-nav">
@@ -8,11 +8,11 @@
 		$this->widget('bootstrap.widgets.TbMenu', array(
 			'type' => 'list',
 			'items' => array_merge(array(
-				array('label' => Yii::t('PluginModule.lang','Plugin Manage')),
-				array('label' => Yii::t('PluginModule.lang','Plugin List'), 'icon' => 'list', 'url' => array('/plugin/PluginManage/index')),
-				array('label' => Yii::t('PluginModule.lang','Plugin Market'), 'icon' => 'download-alt', 'url' => '#'),
+				array('label' => Yii::t('PluginModule.lang', 'Plugin Manage')),
+				array('label' => Yii::t('PluginModule.lang', 'Plugin List'), 'icon' => 'list', 'url' => array('/plugin/PluginManage/index')),
+				array('label' => Yii::t('PluginModule.lang', 'Plugin Market'), 'icon' => 'download-alt', 'url' => '#'),
 				'',
-				array('label' => Yii::t('PluginModule.lang','Enabled Plugins')),
+				array('label' => Yii::t('PluginModule.lang', 'Enabled Plugins')),
 					), $this->menu),
 			'htmlOptions' => array('style' => 'width:200px;border:0;float: left')
 		));
@@ -25,8 +25,8 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(function(){
-		$("#sidebar-content").css('min-height',$(window).height()-150);
+	$(function() {
+		$("#sidebar-content").css('min-height', $(window).height() - 150);
 	})
 </script>
 <?php $this->endContent(); ?>

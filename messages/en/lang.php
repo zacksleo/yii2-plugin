@@ -1,4 +1,5 @@
 <?php
+
 return array(
 	'Enabled Plugins' => 'Enabled Plugins',
 	'Disabled Plugins' => 'Disabled Plugins',
@@ -15,4 +16,4 @@ return array(
 	'Plugin List' => 'Plugin List',
 	'Plugin Market' => 'Plugin Market',
 	'Plugin {name} Not Exist or Closed' => 'Plugin {name} Not Exist or Closed',
-	);
+);

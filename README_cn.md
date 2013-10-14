@@ -95,6 +95,9 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
             # 域名/plugin<模块名>/plugin<控制器名>/index<动作分发Action>
             # ?id=xx<插件唯一标识>&action=xxx<插件内单页动作名>
             echo "You_Domain.com/plugin/plugin/index?id=example&action=page";
+
+            #可以通过调用方法 'createUrl' 来生成该链接
+            echo $this->createUrl('page',array('param'=>'test'));
         }
         
         // 如果你的插件需要在后台进行相关配置

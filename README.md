@@ -99,6 +99,9 @@ To implement the plugin and makes it work, you should inherit these method and i
             # domain/plugin<Module>/plugin<controller name>/index<router action name>
             # ?id=xx<plugin identify>&action=xxx<action name>
             echo "You_Domain.com/plugin/plugin/index?id=example&action=page";
+
+            #You can create this url by call method 'createUrl'
+            echo $this->createUrl('page',array('param'=>'test'));
         }
         
         // If your plugin allow to set configs at the admin control panel

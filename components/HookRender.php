@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Yii-Plugin module
  * 
@@ -7,15 +8,12 @@
  * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
  * @version 1.0
  */
-
 $moduleDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..';
 Yii::setPathOfAlias('pluginModule', $moduleDir);
 Yii::import('pluginModule.lib.*');
 Yii::import('pluginModule.interface.*');
 Yii::import('pluginModule.model.*');
-require_once($moduleDir.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'PluginAbstract.php');
-
-
+require_once($moduleDir . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'PluginAbstract.php');
 
 class HookRender {
 
@@ -29,12 +27,12 @@ class HookRender {
 
 		if (empty($this->hooks)) {
 			return;
-		}	
+		}
 		$hooks = $this->hooks[$pos];
 		if (!$hooks) {
 			return;
 		}
-		
+
 		foreach ($hooks as $hook) {
 			@include_once($hook['path'] . DIRECTORY_SEPARATOR . $hook['identify'] . 'Plugin.php');
 			$class = $hook['identify'] . 'Plugin';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Yii-Plugin module
  * 
@@ -7,8 +8,7 @@
  * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
  * @version 1.0
  */
-class PluginManageController extends CController
-{
+class PluginManageController extends CController {
 
 	public $layout = '/layout/sidebar';
 	public $adminLayout;
@@ -19,28 +19,24 @@ class PluginManageController extends CController
 	private $plugins = array();
 	private $PluginManger;
 
-
-	public function accessRules()
-	{
+	public function accessRules() {
 		return array(
 			array('allow',
 				'users' => array('@'),
-				),
+			),
 			array('deny',
 				'users' => array('*'),
-				),
-			);
+			),
+		);
 	}
 
-	public function filters()
-	{
+	public function filters() {
 		return array(
 			'accessControl',
-			);
+		);
 	}
 
-	public function init()
-	{
+	public function init() {
 		parent::init();
 		$this->module = Yii::app()->getModule('plugin');
 		$this->folder = Yii::getPathOfAlias($this->module->pluginRoot);
@@ -49,8 +45,7 @@ class PluginManageController extends CController
 		$this->defaultIcon = Yii::app()->getAssetManager()->publish($this->module->moduleDir . DIRECTORY_SEPARATOR . 'default.png');
 	}
 
-	public function actionIndex()
-	{
+	public function actionIndex() {
 		$this->_getPlugins($this->folder);
 		$this->_loadPlugins();
 		$this->_setMenu();
@@ -59,21 +54,20 @@ class PluginManageController extends CController
 		foreach ($this->plugins as $plugin) {
 			switch ($this->PluginManger->Status($plugin['plugin'])) {
 				case PluginManger::STATUS_Enabled:
-				$plugins[PluginManger::STATUS_Enabled][] = $plugin;
-				break;
+					$plugins[PluginManger::STATUS_Enabled][] = $plugin;
+					break;
 				case PluginManger::STATUS_Installed:
-				$plugins[PluginManger::STATUS_Installed][] = $plugin;
-				break;
+					$plugins[PluginManger::STATUS_Installed][] = $plugin;
+					break;
 				case PluginManger::STATUS_NotInstalled:
-				$plugins[PluginManger::STATUS_NotInstalled][] = $plugin;
-				break;
+					$plugins[PluginManger::STATUS_NotInstalled][] = $plugin;
+					break;
 			}
 		}
 		$this->render('index', array('plugins' => $plugins));
 	}
 
-	public function actionSetting($id)
-	{
+	public function actionSetting($id) {
 		$this->_setMenu();
 		$plugin = $this->_loadPluginFromIdentify($id);
 		if (method_exists($plugin, 'AdminCp')) {
@@ -106,14 +100,12 @@ class PluginManageController extends CController
 		$this->render('setting', array('name' => $plugin->name, 'content' => $content));
 	}
 
-	public function actionMarket()
-	{
-
+	public function actionMarket() {
+		
 	}
 
-	public function actionInstall()
-	{
-		if(!isset($_POST['id']))
+	public function actionInstall() {
+		if (!isset($_POST['id']))
 			$this->_ajax(0);
 		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
@@ -125,9 +117,8 @@ class PluginManageController extends CController
 		}
 	}
 
-	public function actionUninstall()
-	{
-		if(!isset($_POST['id']))
+	public function actionUninstall() {
+		if (!isset($_POST['id']))
 			$this->_ajax(0);
 		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
@@ -139,9 +130,8 @@ class PluginManageController extends CController
 		}
 	}
 
-	public function actionEnable()
-	{
-		if(!isset($_POST['id']))
+	public function actionEnable() {
+		if (!isset($_POST['id']))
 			$this->_ajax(0);
 		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
@@ -153,9 +143,8 @@ class PluginManageController extends CController
 		}
 	}
 
-	public function actionDisable()
-	{
-		if(!isset($_POST['id']))
+	public function actionDisable() {
+		if (!isset($_POST['id']))
 			$this->_ajax(0);
 		$id = $_POST['id'];
 		$plugin = $this->_loadPluginFromIdentify($id);
@@ -167,8 +156,7 @@ class PluginManageController extends CController
 		}
 	}
 
-	private function _getPlugins($folder)
-	{
+	private function _getPlugins($folder) {
 		if ($handle = opendir($folder)) {
 			while (FALSE !== ($file = readdir($handle))) {
 				if ($file != "." && $file != "..") {
@@ -186,8 +174,7 @@ class PluginManageController extends CController
 		}
 	}
 
-	private function _loadPlugins()
-	{
+	private function _loadPlugins() {
 		$plugins = array();
 		foreach ($this->plugins as $k => $plugin) {
 			@include_once($plugin['path'] . DIRECTORY_SEPARATOR . $plugin['pluginEntry']);
@@ -204,8 +191,7 @@ class PluginManageController extends CController
 		return TRUE;
 	}
 
-	private function _loadPluginFromIdentify($identify)
-	{
+	private function _loadPluginFromIdentify($identify) {
 		$plugins = Yii::app()->cache->get('PluginList');
 		if (!$plugins) {
 			$this->_getPlugins($this->folder);
@@ -224,8 +210,7 @@ class PluginManageController extends CController
 		return FALSE;
 	}
 
-	private function _setMenu($force = FALSE)
-	{
+	private function _setMenu($force = FALSE) {
 		if (!$force)
 			$cache = Yii::app()->cache->get('PluginMenu');
 		if ($cache) {
@@ -249,12 +234,12 @@ class PluginManageController extends CController
 		Yii::app()->cache->set('PluginMenu', $this->menu);
 	}
 
-	private function _ajax($status, $data = NULL)
-	{
+	private function _ajax($status, $data = NULL) {
 		header('Content-type: application/json');
 		echo json_encode(array('status' => $status, 'data' => $data));
 		Yii::app()->end();
 	}
+
 }
 
 ?>
