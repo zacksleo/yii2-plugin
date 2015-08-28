@@ -30,6 +30,7 @@ Add these array in the project config (if you have more than one entries,add the
         )
     ),
 
+
 ### Create table
 Run sql statement in folder `sql` or apply migrate with yiic (see [Yii doc](http://www.yiiframework.com/doc/guide/1.1/en/database.migration#applying-migrations))
 
