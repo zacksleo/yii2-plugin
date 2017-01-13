@@ -2,13 +2,16 @@
 
 /**
  * Yii-Plugin module
- * 
- * @author Viking Robin <healthlolicon@gmail.com> 
- * @link https://github.com/health901/yii-plugin
- * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
+ *
+ * @author zacksleo <zacksleo@gmail.com>
+ * @link https://github.com/zacksleo/yii2-plugin
+ * @license MIT
  * @version 1.0
  */
-class PluginManageController extends CController {
+use yii\web\Controller;
+use zacksleo\yii2\plugin\libs\PluginManger;
+
+class PluginManageController extends Controller {
 
 	public $layout = '/layout/sidebar';
 	public $adminLayout;

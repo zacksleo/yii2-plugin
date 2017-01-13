@@ -1,3 +1,0 @@
-[submodule "demo/OAuth"]
-	path = demo/OAuth
-	url = git://github.com/health901/Yii-Plugin-OAuth.git

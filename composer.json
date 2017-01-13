@@ -1,0 +1,22 @@
+{
+  "name": "zacksleo/yii2-plugin-module",
+  "description": "yii2 plugin module",
+  "type": "yii2-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zacksleo",
+      "email": "zacksleo@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "yiisoft/yii2": "*",
+    "yiisoft/yii2-bootstrap": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "zacksleo\\yii2\\plugin\\": ""
+    }
+  }
+}

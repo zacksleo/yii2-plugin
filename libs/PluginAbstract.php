@@ -1,5 +1,7 @@
 <?php
 
+namespace zacksleo\yii2\plugin\libs;
+
 /**
  * Yii-Plugin module
  * 
