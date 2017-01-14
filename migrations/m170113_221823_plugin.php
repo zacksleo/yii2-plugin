@@ -23,11 +23,23 @@ class m170113_221823_plugin extends Migration
             'hooks' => $this->text()->notNull(),
             'enable' => $this->boolean()->defaultValue(0),
         ], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
+
+        $this->createTable('{{%plugin_setting}}', [
+            'plugin' => $this->string(45)->notNull(),
+            'key' => $this->string(45)->notNull(),
+            'value' => $this->string(),
+        ], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
+
+        $this->addPrimaryKey('plugin_key', '{{%plugin_setting}}', [
+            'plugin',
+            'key'
+        ]);
     }
 
     public function down()
     {
         $this->dropTable('{{%plugin}}');
+        $this->dropTable('{{%plugin_setting}}');
     }
 
 }

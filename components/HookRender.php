@@ -1,23 +1,14 @@
 <?php
 namespace zacksleo\yii2\plugin\components;
 
+use yii;
 use zacksleo\yii2\plugin\models\Plugin;
+use zacksleo\yii2\plugin\components;
 
-/**
- * Yii-Plugin module
- *
- * @author Viking Robin <healthlolicon@gmail.com>
- * @link https://github.com/health901/yii-plugin
- * @license https://github.com/health901/yii-plugins/blob/master/LICENSE
- * @version 1.0
- */
 
 $moduleDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..';
-Yii::setPathOfAlias('pluginModule', $moduleDir);
-Yii::import('pluginModule.lib.*');
-Yii::import('pluginModule.interface.*');
-Yii::import('pluginModule.model.*');
-require_once($moduleDir . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'PluginAbstract.php');
+Yii::setAlias('pluginModule', $moduleDir);
+
 
 class HookRender
 {
@@ -39,16 +30,16 @@ class HookRender
         if (!$hooks) {
             return;
         }
-
         foreach ($hooks as $hook) {
-            @include_once($hook['path'] . DIRECTORY_SEPARATOR . $hook['identify'] . 'Plugin.php');
-            $class = $hook['identify'] . 'Plugin';
-            if (!class_exists($class))
+            /* @var $plugin \zacksleo\yii2\plugin\components\Plugin */
+            $class = new \ReflectionClass($hook['path'] . '\\' . $hook['identify'] . 'Plugin');
+            $instance = $class->newInstance();
+            if (!class_exists($instance))
                 continue;
             $plugin = new $class();
             $act = explode('.', $hook['hook']);
             if ($act[1]) {
-                $h = $plugin->LoadHook($hook['hook']);
+                $h = $plugin->loadHook($hook['hook']);
                 if (!$h)
                     continue;
                 $h->run();
@@ -61,15 +52,15 @@ class HookRender
 
     protected function getHooks()
     {
-        $plugins = Plugin::model()->findAllByAttributes(array('enable' => 1));
+        $plugins = Plugin::findOne(['enable' => true]);
         if (!$plugins)
             return;
         foreach ($plugins as $plugin) {
             foreach (unserialize($plugin->hooks) as $pos => $hook) {
-                $this->hooks[$pos][] = array('identify' => $plugin->identify, 'path' => $plugin->path, 'hook' => $hook);
+                $this->hooks[$pos][] = ['identify' => $plugin->identify, 'path' => $plugin->path, 'hook' => $hook];
             }
         }
-        return TRUE;
+        return true;
     }
 
 }

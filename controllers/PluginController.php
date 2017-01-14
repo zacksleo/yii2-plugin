@@ -1,13 +1,6 @@
 <?php
+namespace zacksleo\yii2\plugin\controllers;
 
-/**
- * Yii-Plugin module
- *
- * @author zacksleo <zacksleo@gmail.com>
- * @link https://github.com/zacksleo/yii2-plugin
- * @license MIT
- * @version 1.0
- */
 use yii\web\Controller;
 use zacksleo\yii2\plugin\models\Plugin;
 
@@ -22,7 +15,10 @@ class PluginController extends Controller
             $this->redirect(Yii::$app->homeUrl);
         }
         $id = $_GET['id'];
-        $plugin = Plugin::model()->findbyAttributes(array('identify' => $id, 'enable' => 1));
+        $plugin = Plugin::findOne([
+            'identify' => $id,
+            'enable' => true
+        ]);
         if (!$plugin) {
             $this->render('miss', array('name' => $id));
             exit;
@@ -39,7 +35,7 @@ class PluginController extends Controller
             Yii:
             app()->end();
         }
-        $actions = array_change_key_case($class->Actions(), CASE_LOWER);
+        $actions = array_change_key_case($class->actions(), CASE_LOWER);
         if ($action) {
             if (isset($actions[$action])) {
                 $actionClass = $this->_loadAction($actions[$action], $plugin);

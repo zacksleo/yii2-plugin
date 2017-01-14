@@ -1,19 +1,19 @@
 <?php
 
-namespace zacksleo\yii2\wechat;
+namespace zacksleo\yii2\plugin;
 
 use yii;
-use yii\helpers\Url;
+use yii\base\Module as BaseModule;
 
 /**
  * portal module definition class
  */
-class Module extends \yii\base\Module
+class Module extends BaseModule
 {
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'zacksleo\yii2\wechat\controllers';
+    public $controllerNamespace = 'zacksleo\yii2\plugin\controllers';
 
     /**
      *
@@ -28,7 +28,11 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    //public $layoutPath = 'app\modules\wechat\themes\wechat\views\layouts';
+
+    public $pluginRoot = 'application.plugin';
+
+    public $moduleDir;
+
 
     /**
      * @inheritdoc
@@ -36,6 +40,8 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+        $this->moduleDir = dirname(__FILE__);
+        Yii::setAlias('pluginModule', $this->moduleDir);
         $this->registerTranslations();
     }
 
@@ -44,13 +50,12 @@ class Module extends \yii\base\Module
      */
     protected function registerTranslations()
     {
-        Yii::$app->i18n->translations['zacksleo/yii2/wechat/*'] = [
+        Yii::$app->i18n->translations['zacksleo/yii2/plugin/*'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => $this->sourceLanguage,
-            'basePath' => '@zacksleo/yii2/wechat/messages',
+            'basePath' => '@zacksleo/yii2/plugin/messages',
             'fileMap' => [
-                'zacksleo/yii2/wechat/core' => 'core.php',
-                'zacksleo/yii2/wechat/tree' => 'tree.php',
+                'zacksleo/yii2/plugin/lang' => 'core.php',
             ],
         ];
     }
@@ -68,6 +73,6 @@ class Module extends \yii\base\Module
      */
     public static function t($category, $message, $params = [], $language = null)
     {
-        return Yii::t('zacksleo/yii2/wechat/' . $category, $message, $params, $language);
+        return Yii::t('zacksleo/yii2/plugin/' . $category, $message, $params, $language);
     }
 }

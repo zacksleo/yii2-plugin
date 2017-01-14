@@ -2,6 +2,8 @@
 
 namespace zacksleo\yii2\plugin\models;
 
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "{{plugin_setting}}".
  *
@@ -10,18 +12,16 @@ namespace zacksleo\yii2\plugin\models;
  * @property string $key
  * @property string $value
  */
-
-use yii\db\ActiveRecord;
-
 class PluginSetting extends ActiveRecord
 {
 
+
     /**
-     * @return string the associated database table name
+     * @inheritdoc
      */
-    public function tableName()
+    public static function tableName()
     {
-        return '{{plugins_setting}}';
+        return '{{%plugin_setting}}';
     }
 
     /**
@@ -29,26 +29,12 @@ class PluginSetting extends ActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('plugin, key', 'required'),
-            array('plugin, key', 'length', 'max' => 45),
-            array('value', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('plugin, key, value', 'safe', 'on' => 'search'),
-        );
-    }
-
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array();
+        return [
+            ['plugin, key', 'required'],
+            ['plugin, key', 'length', 'max' => 45],
+            ['value', 'safe'],
+            ['plugin, key, value', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -56,78 +42,51 @@ class PluginSetting extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'plugin' => 'Plugin',
             'key' => 'Key',
             'value' => 'Value',
-        );
+        ];
     }
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
-     *
-     * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
-     */
-    public function search()
+
+    public static function clear($plugin)
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        $criteria->compare('plugin', $this->plugin, true);
-        $criteria->compare('key', $this->key, true);
-        $criteria->compare('value', $this->value, true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-        ));
+        self::deleteAll([
+            'plugin' => $plugin
+        ]);
     }
 
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return PluginsSetting the static model class
-     */
-    public static function model($className = __CLASS__)
+    public static function get($plugin, $key)
     {
-        return parent::model($className);
-    }
-
-    ####################
-
-    public function clear($plugin)
-    {
-        $this->deleteAll("plugin=:plugin", array(':plugin' => $plugin));
-    }
-
-    public function get($plugin, $key)
-    {
-        $row = $this->findByAttributes(array('plugin' => $plugin, 'key' => $key));
+        /* @var $row PluginSetting */
+        $row = self::findOne([
+            'plugin' => $plugin,
+            'key' => $key
+        ]);
         if (empty($row)) {
             return FALSE;
         }
         return $row->value;
     }
 
-    public function set($plugin, $key, $value = NULL)
+    public static function set($plugin, $key, $value = NULL)
     {
-        $row = $this->get($plugin, $key);
+        $row = self::get($plugin, $key);
         if ($row === FALSE) {
-            $this->setIsNewRecord(true);
-            $this->plugin = $plugin;
-            $this->key = $key;
-            $this->value = $value;
-            return $this->save();
+            $model = new PluginSetting();
+            $model->setIsNewRecord(true);
+            $model->plugin = $plugin;
+            $model->key = $key;
+            $model->value = $value;
+            return $model->save();
         } else {
-            return $this->updateByPk(array('plugin' => $plugin, 'key' => $key), array('value' => $value));
+            return self::updateAll([
+                'value' => $value
+            ], [
+                'plugin' => $plugin,
+                'key' => $key
+            ]);
         }
     }
 
