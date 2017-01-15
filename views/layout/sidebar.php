@@ -1,5 +1,4 @@
 <?php
-Yii::app()->clientScript->registerCoreScript('jquery');
 $this->beginContent($this->adminLayout);
 ?>
 <div>
