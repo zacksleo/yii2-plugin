@@ -2,6 +2,7 @@
 namespace zacksleo\yii2\plugin\controllers;
 
 use yii\web\Controller;
+use yii\filters\AccessControl;
 use zacksleo\yii2\plugin\components\PluginManger;
 
 /**
@@ -16,28 +17,29 @@ class PluginManageController extends Controller
     public $adminLayout;
     public $menu = array();
     public $defaultIcon;
-    private $module;
+    public $module;
     private $folder;
     private $plugins = array();
     private $pluginManger;
 
-    public function accessRules()
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
     {
-        return array(
-            array('allow',
-                'users' => array('@'),
-            ),
-            array('deny',
-                'users' => array('*'),
-            ),
-        );
-    }
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'upgrade'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
 
-    public function filters()
-    {
-        return array(
-            'accessControl',
-        );
+        ];
     }
 
     public function init()

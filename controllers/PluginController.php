@@ -1,6 +1,7 @@
 <?php
 namespace zacksleo\yii2\plugin\controllers;
 
+use yii;
 use yii\web\Controller;
 use zacksleo\yii2\plugin\models\Plugin;
 
@@ -12,7 +13,7 @@ class PluginController extends Controller
     public function actionIndex()
     {
         if (!$_GET['id']) {
-            $this->redirect(Yii::$app->homeUrl);
+            return $this->redirect(Yii::$app->homeUrl);
         }
         $id = $_GET['id'];
         $plugin = Plugin::findOne([
