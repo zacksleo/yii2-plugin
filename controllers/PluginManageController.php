@@ -1,6 +1,7 @@
 <?php
 namespace zacksleo\yii2\plugin\controllers;
 
+use yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use zacksleo\yii2\plugin\components\PluginManger;
