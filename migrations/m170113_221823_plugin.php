@@ -27,7 +27,7 @@ class m170113_221823_plugin extends Migration
         $this->createTable('{{%plugin_setting}}', [
             'plugin' => $this->string(45)->notNull(),
             'key' => $this->string(45)->notNull(),
-            'value' => $this->string(),
+            'value' => $this->text(),
         ], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
 
         $this->addPrimaryKey('plugin_key', '{{%plugin_setting}}', [

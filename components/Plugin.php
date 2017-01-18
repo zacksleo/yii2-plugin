@@ -2,6 +2,8 @@
 
 namespace zacksleo\yii2\plugin\components;
 
+use yii;
+use yii\helpers\Url;
 use zacksleo\yii2\plugin\models\PluginSetting;
 
 /**
@@ -31,17 +33,6 @@ abstract class Plugin extends PluginBase
         $reflection = new \ReflectionClass($class);
         $this->pluginDir = dirname($reflection->getFileName());
     }
-
-    /**
-     * *************************************************
-     *  methods below can be overridden or implemented
-     * *************************************************
-     */
-
-    /**
-     * initialize plugin, set plugin infos
-     */
-    abstract public function init();
 
     /**
      * return an array of hooks,all plugins have to implement this method.
@@ -133,7 +124,8 @@ abstract class Plugin extends PluginBase
         if (!$this->icon) {
             return false;
         }
-        return Yii::$app->getAssetManager()->publish($this->pluginDir . DIRECTORY_SEPARATOR . $this->icon);
+        $publishedPath = Yii::$app->getAssetManager()->publish($this->pluginDir . DIRECTORY_SEPARATOR . $this->icon);
+        return (Url::to($publishedPath[1], true));
     }
 
     /**

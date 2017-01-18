@@ -139,7 +139,7 @@ class PluginManger
      * Finds the App model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $identify
-     * @return Plugin the loaded model
+     * @return Plugin|boolean the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($identify)
@@ -147,7 +147,7 @@ class PluginManger
         if (($model = Plugin::findOne(['identify' => $identify])) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('Plugin not exist.');
+            return false;
         }
     }
 

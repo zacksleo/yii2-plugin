@@ -1,175 +1,148 @@
 <?php
 use yii\web\View;
+use yii\helpers\Url;
+use zacksleo\yii2\plugin\components\PluginManger;
+use zacksleo\yii2\plugin\Module;
 
-$css = '#tbl-plugins {
-	width: 960px;
-	font-size: 12px;
-	line-height: 17px;
-	margin-bottom: 30px;
-}
+/* @var $this View */
+?>
 
-	#tbl-plugins .g-plg {
-font-size: 15px;
-font-weight: bold;
-margin-bottom: 5px;
-}
-
-.col {
-	border: 1px solid #EEE;
-	border-top: 3px solid #DDD;
-	padding: 5px;
-	background: #F3F3F5;
-}
-
-.col .fl {
-	float: left;
-	min-height: 72px;
-}
-
-.col .fr {
-	float: right;
-	min-height: 72px;
-}
-
-.col-img {
-	width: 90px;
-}
-
-.col-label {
-	width: 250px;
-}
-
-.col-desc {
-	width: 488px;
-	color: #333;
-}
-
-.col-option {
-	width: 120px;
-	text-align: center;
-}
-
-.col-img img {
-	display: block;
-}
-
-.col-desc em {
-	font-style: normal;
-}
-
-.col-option div {
-	margin-top: 25px;
-}
-.col-option a {
-	color:black;
-	text-decoration : none;
-	margin-right: 5px;
-}
-.col-label .plg-name {
-	font-size: 13px;
-	font-weight: bold;
-	margin-top: 5px;
-}
-
-.col-label .plg-id {
-	font-size: 11px;
-	margin-top: 5px;
-}
-
-.col-label .plg-cp {
-	margin-top: 10px;
-}
-
-.col-desc div {
-	margin: 5px;
-}';
-Yii::app()->clientScript->registerCss('plugin_css_cp', $css);
-foreach ($plugins as $status => $_plugins) {
-    if (empty($_plugins))
-        continue;
-    ?>
-    <div id="tbl-plugins">
-        <?php
-        switch ($status) {
-            case PluginManger::STATUS_Enabled:
-                echo '<div class="g-plg">' . Yii::t("PluginModule.lang", "Enabled Plugins") . ': </div>';
-                break;
-            case PluginManger::STATUS_Installed:
-                echo '<div class="g-plg">' . Yii::t("PluginModule.lang", "Disabled Plugins") . ': </div>';
-                break;
-            case PluginManger::STATUS_NotInstalled:
-                echo '<div class="g-plg">' . Yii::t("PluginModule.lang", "Not Installed Plugins") . ': </div>';
-                break;
-        }
-        ?>
-
-        <?php foreach ($_plugins as $plugin) { ?>
-            <div class="col">
-                <div class="col-img fl">
-                    <div>
-                        <img
-                            src="<?php echo $plugin['plugin']->Icon() ? $plugin['plugin']->Icon() : $this->defaultIcon; ?>"
-                            width="72"
-                            height="72"/>
-                    </div>
-                </div>
-                <div class="col-label fl">
-                    <div class="plg-name"> <?php echo $plugin['plugin']->name; ?>
-                        (Ver:<?php echo $plugin['plugin']->version; ?>)
-                    </div>
-                    <div class="plg-id"><?php echo $plugin['plugin']->identify; ?></div>
-                    <div class="plg-cp"><a
-                            href="<?php echo $plugin['plugin']->website; ?>"><?php echo $plugin['plugin']->copyright; ?></a>
-                    </div>
-                </div>
-                <div class="col-desc fl">
-                    <div><em><?php echo Yii::t("PluginModule.lang", "Description"); ?>
-                            : </em><?php echo $plugin['plugin']->description; ?></div>
-                </div>
-                <div class="col-option fl">
-                    <div>
-                        <?php
-                        switch ($status) {
-                            case PluginManger::STATUS_Enabled:
-                                ?>
-                                <span><?php echo CHtml::link('<i class="icon-pause"></i>', 'javascript:;', array('data-id' => $plugin['plugin']->identify, 'class' => 'p_disable', 'title' => Yii::t("PluginModule.lang", 'Disable'), 'rel' => 'tooltip')); ?></span>
-                                <span><?php echo CHtml::link('<i class="icon-cog"></i>', $this->createUrl('/plugin/pluginManage/setting', array('id' => $plugin['plugin']->identify)), array('title' => Yii::t("PluginModule.lang", 'Setting'), 'rel' => 'tooltip')); ?></span>
-                                <span><?php echo CHtml::link('<i class="icon-remove"></i>', 'javascript:;', array('data-id' => $plugin['plugin']->identify, 'class' => 'p_uninstall', 'title' => Yii::t("PluginModule.lang", 'Uninstall'), 'rel' => 'tooltip')); ?></span>
-                                <?php
-                                break;
-                            case PluginManger::STATUS_Installed:
-                                ?>
-                                <span><?php echo CHtml::link('<i class="icon-play"></i>', 'javascript:;', array('data-id' => $plugin['plugin']->identify, 'class' => 'p_enable', 'title' => Yii::t("PluginModule.lang", 'Enable'), 'rel' => 'tooltip')); ?></span>
-                                <span><?php echo CHtml::link('<i class="icon-cog"></i>', $this->createUrl('/plugin/pluginManage/setting', array('id' => $plugin['plugin']->identify)), array('title' => Yii::t("PluginModule.lang", 'Setting'), 'rel' => 'tooltip')); ?></span>
-                                <span><?php echo CHtml::link('<i class="icon-remove"></i>', 'javascript:;', array('data-id' => $plugin['plugin']->identify, 'class' => 'p_uninstall', 'title' => Yii::t("PluginModule.lang", 'Uninstall'), 'rel' => 'tooltip')); ?></span>
-                                <?php
-                                break;
-                            case PluginManger::STATUS_NotInstalled:
-                                ?>
-                                <span><?php echo CHtml::link('<i class="icon-off"></i>', 'javascript:;', array('data-id' => $plugin['plugin']->identify, 'class' => 'p_install', 'title' => Yii::t("PluginModule.lang", 'Install'), 'rel' => 'tooltip')); ?></span>
-                                <?php
-                                break;
-                        }
-                        ?>
-                        <span><?php echo CHtml::link('<i class="icon-eye-open"></i>', '#', array('title' => Yii::t("PluginModule.lang", 'View'), 'rel' => 'tooltip')); ?></span>
-                    </div>
-                </div>
-                <div style="clear:both;"></div>
-            </div>
-        <?php } ?>
+<div class="portlet light ">
+    <div class="portlet-title">
+        <div class="caption">
+            插件管理
+        </div>
     </div>
-    <?php
-}
-$plugin_js_cp = 'jQuery(".p_install").click(function(){
-		jQuery.post("' . $this->createUrl("/plugin/pluginManage/install") . '",{id:jQuery(this).data("id")},function(data){
+    <div class="portlet-body">
+        <?php foreach ($plugins as $status => $_plugins):
+        if (empty($_plugins))
+            continue;
+        ?>
+        <div id="tbl-plugins">
+            <?php
+            switch ($status):
+                case PluginManger::STATUS_ENABLED:
+                    echo '<h4 class="text-success">' . Module::t("plugin", "Enabled Plugins") . ': </h4>';
+                    break;
+                case PluginManger::STATUS_INSTALLED:
+                    echo '<h4 class="text-warning">' . Module::t("PluginModule.lang", "Disabled Plugins") . ': </h4>';
+                    break;
+                case PluginManger::STATUS_NOT_INSTALLED:
+                    echo '<h4 class="text-info">' . Module::t("PluginModule.lang", "Not Installed Plugins") . ': </h4>';
+                    break;
+            endswitch;
+            ?>
+            <br/>
+            <?php foreach ($_plugins as $plugin): ?>
+                <div class="row">
+                    <div class="col-md-1">
+                        <img class="img-responsive"
+                             src="<?php echo $plugin['plugin']->icon() ? $plugin['plugin']->icon() : $this->context->defaultIcon; ?>"/>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="plg-name"> <?php echo $plugin['plugin']->name; ?>
+                            (Ver:<?php echo $plugin['plugin']->version; ?>)
+                        </div>
+                        <div class="plg-id"><?php echo $plugin['plugin']->identify; ?></div>
+                        <div class="plg-cp"><a
+                                href="<?php echo $plugin['plugin']->website; ?>"><?php echo $plugin['plugin']->copyright; ?></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <em>
+                                <?php echo Module::t('plugin', "Description"); ?>
+                                : </em><?php echo $plugin['plugin']->description; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-right">
+                            <?php
+                            switch ($status):
+                                case PluginManger::STATUS_ENABLED:
+                                    ?>
+                                    <a class="btn btn-xs btn-link p_disable"
+                                       title="<?php echo Module::t('plugin', 'Disable'); ?>"
+                                       data-id="<?php echo $plugin['plugin']->identify; ?>">
+                                        <i class="fa fa-pause fa-2x"></i>
+                                    </a>
+
+                                    <a class="btn btn-xs btn-link"
+                                       title="<?php echo Module::t('plugin', 'Setting'); ?>"
+                                       href="<?php echo Url::to(['/plugin/plugin-manage/setting', 'id' => $plugin['plugin']->identify]); ?>"
+                                    >
+                                        <i class="fa fa-cogs fa-2x"></i>
+                                    </a>
+
+                                    <a class="btn btn-xs btn-link p_uninstall"
+                                       title="<?php echo Module::t('plugin', 'Uninstall'); ?>"
+                                       data-id="<?php echo $plugin['plugin']->identify; ?>">
+                                        <i class="fa fa-trash fa-2x"></i>
+                                    </a>
+                                    <?php
+                                    break;
+                                case PluginManger::STATUS_INSTALLED:
+                                    ?>
+                                    <a class="btn btn-xs btn-link p_enable"
+                                       title="<?php echo Module::t('plugin', 'Enable'); ?>"
+                                       data-id="<?php echo $plugin['plugin']->identify; ?>">
+                                        <i class="fa fa-play fa-2x" rel="tooltip"></i>
+                                    </a>
+
+                                    <a class="btn btn-xs btn-link"
+                                       title="<?php echo Module::t('plugin', 'Setting'); ?>"
+                                       href="<?php echo Url::to(['/plugin/plugin-manage/setting', 'id' => $plugin['plugin']->identify]); ?>">
+                                        <i class="fa fa-cogs fa-2x"></i>
+                                    </a>
+                                    <a class="btn btn-xs btn-link p_uninstall"
+                                       title="<?php echo Module::t('plugin', 'Uninstall'); ?>"
+                                       data-id="<?php echo $plugin['plugin']->identify; ?>">
+                                        <i class="fa fa-trash fa-2x"></i>
+                                    </a>
+                                    <?php
+                                    break;
+                                case PluginManger::STATUS_NOT_INSTALLED:
+                                    ?>
+                                    <a
+                                        class="btn btn-xs btn-link p_install"
+                                        title="<?php echo Module::t('plugin', 'Install'); ?>"
+                                        data-id="<?php echo $plugin['plugin']->identify; ?>">
+                                        <i class="fa fa-download fa-2x" rel="tooltip"></i>
+                                    </a>
+                                    <?php
+                                    break;
+                            endswitch;
+                            ?>
+                            <a class="btn btn-xs btn-link"
+                               title="<?php echo Module::t('plugin', 'View'); ?>">
+                                <i class="fa fa-eye fa-2x" rel="tooltip"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr/>
+                </div>
+            <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+
+<?php
+
+$script = '
+var csrfToken = $(\'meta[name="csrf-token"]\').attr("content");
+jQuery(".p_install").click(function(){
+		jQuery.post("' . Url::to(["/plugin/plugin-manage/install"]) . '",{id:jQuery(this).data("id"),_csrf : csrfToken},function(data){
 			if(data.status){
 				window.location.reload();
 			}
 		},"json");
 });
 jQuery(".p_uninstall").click(function(){
-	if(confirm("' . Yii::t("PluginModule.lang", "Plugin data will be removed after uninstall, sure to uninstall?") . '")==true){
-		jQuery.post("' . $this->createUrl("/plugin/pluginManage/uninstall") . '",{id:jQuery(this).data("id")},function(data){
+	if(confirm("' . Module::t('plugin', "Plugin data will be removed after uninstall, sure to uninstall?") . '")==true){
+		jQuery.post("' . Url::to(["/plugin/plugin-manage/uninstall"]) . '",{id:jQuery(this).data("id"),_csrf : csrfToken},function(data){
 			if(data.status){
 				window.location.reload();
 			}
@@ -179,17 +152,19 @@ jQuery(".p_uninstall").click(function(){
 	}
 });
 jQuery(".p_enable").click(function(){
-	jQuery.post("' . $this->createUrl("/plugin/pluginManage/enable") . '",{id:jQuery(this).data("id")},function(data){
+	jQuery.post("' . Url::to(["/plugin/plugin-manage/enable"]) . '",{id:jQuery(this).data("id"),_csrf : csrfToken},function(data){
 		if(data.status){
 			window.location.reload();
 		}
 	},"json");
 });
 jQuery(".p_disable").click(function(){
-	jQuery.post("' . $this->createUrl("/plugin/pluginManage/disable") . '",{id:jQuery(this).data("id")},function(data){
+	jQuery.post("' . Url::to(["/plugin/plugin-manage/disable"]) . '",{id:jQuery(this).data("id"),_csrf : csrfToken},function(data){
 		if(data.status){
 			window.location.reload();
 		}
 	},"json");
 });';
-$this->registerScript($plugin_js_cp, View::POS_END);
+
+Yii::$app->request->isAjax ? print "<script>$script</script>" : $this->registerJs($script, View::POS_END);
+?>

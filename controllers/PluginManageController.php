@@ -2,6 +2,7 @@
 namespace zacksleo\yii2\plugin\controllers;
 
 use yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use zacksleo\yii2\plugin\components\PluginManger;
@@ -14,7 +15,7 @@ use zacksleo\yii2\plugin\components\PluginManger;
 class PluginManageController extends Controller
 {
 
-    public $layout = '/layout/sidebar';
+    public $layout;
     public $adminLayout;
     public $menu = array();
     public $defaultIcon;
@@ -22,6 +23,7 @@ class PluginManageController extends Controller
     private $folder;
     private $plugins = array();
     private $pluginManger;
+    public $enableCsrfValidation = false;
 
     /**
      * @inheritdoc
@@ -50,7 +52,8 @@ class PluginManageController extends Controller
         $this->folder = Yii::getAlias($this->module->pluginRoot);
         $this->pluginManger = new PluginManger();
         $this->adminLayout = $this->module->layout;
-        $this->defaultIcon = Yii::$app->getAssetManager()->publish($this->module->moduleDir . DIRECTORY_SEPARATOR . 'default.png');
+        $publishedPath = Yii::$app->getAssetManager()->publish($this->module->moduleDir . DIRECTORY_SEPARATOR . 'default.png');
+        $this->defaultIcon = Url::to($publishedPath[1], true);
     }
 
     public function actionIndex()
@@ -58,8 +61,11 @@ class PluginManageController extends Controller
         $this->_getPlugins($this->folder);
         $this->_loadPlugins();
         $this->_setMenu();
-        $plugins = array(PluginManger::STATUS_ENABLED => Array(), PluginManger::STATUS_INSTALLED => array(), PluginManger::STATUS_NOT_INSTALLED => array());
-
+        $plugins = [
+            PluginManger::STATUS_ENABLED => [],
+            PluginManger::STATUS_INSTALLED => [],
+            PluginManger::STATUS_NOT_INSTALLED => []
+        ];
         foreach ($this->plugins as $plugin) {
             switch ($this->pluginManger->status($plugin['plugin'])) {
                 case PluginManger::STATUS_ENABLED:
@@ -163,7 +169,7 @@ class PluginManageController extends Controller
         $id = $_POST['id'];
         $plugin = $this->_loadPluginFromIdentify($id);
         if ($this->pluginManger->disable($plugin)) {
-            $this->_setMenu(TRUE);
+            $this->_setMenu(true);
             $this->_ajax(1);
         } else {
             $this->_ajax(0);
@@ -173,7 +179,7 @@ class PluginManageController extends Controller
     private function _getPlugins($folder)
     {
         if ($handle = opendir($folder)) {
-            while (FALSE !== ($file = readdir($handle))) {
+            while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != "..") {
                     if (is_dir($folder . DIRECTORY_SEPARATOR . $file)) {
                         $this->_getPlugins($folder . DIRECTORY_SEPARATOR . $file);
@@ -185,19 +191,20 @@ class PluginManageController extends Controller
             }
             closedir($handle);
         } else {
-            return FALSE;
+            return false;
         }
     }
 
     private function _loadPlugins()
     {
-        $plugins = array();
+        $plugins = [];
         foreach ($this->plugins as $k => $plugin) {
             @include_once($plugin['path'] . DIRECTORY_SEPARATOR . $plugin['pluginEntry']);
             $class = substr($plugin['pluginEntry'], 0, strlen($plugin['pluginEntry']) - 4);
+            $class = $this->module->pluginNamespace . '\\' . $class;
             if (class_exists($class)) {
                 $this->plugins[$k]['plugin'] = new $class();
-                $this->plugins[$k]['status'] = $this->pluginManger->Status($this->plugins[$k]['plugin']);
+                $this->plugins[$k]['status'] = $this->pluginManger->status($this->plugins[$k]['plugin']);
                 $this->plugins[$k]['identify'] = $this->plugins[$k]['plugin']->identify;
                 $plugins[$k] = $this->plugins[$k];
                 unset($plugins[$k]['plugin']);
@@ -219,19 +226,20 @@ class PluginManageController extends Controller
             if ($plugin['identify'] == $identify) {
                 @include_once($plugin['path'] . DIRECTORY_SEPARATOR . $plugin['pluginEntry']);
                 $class = substr($plugin['pluginEntry'], 0, strlen($plugin['pluginEntry']) - 4);
+                $class = $this->module->pluginNamespace . '\\' . $class;
                 if (class_exists($class)) {
                     return new $class();
                 }
             }
         }
-        return FALSE;
+        return false;
     }
 
-    private function _setMenu($force = FALSE)
+    private function _setMenu($force = false)
     {
         if (!$force)
             $cache = Yii::$app->cache->get('PluginMenu');
-        if ($cache) {
+        if (isset($cache)) {
             $this->menu = $cache;
             return;
         }
@@ -240,8 +248,9 @@ class PluginManageController extends Controller
             $this->_getPlugins($this->folder);
             $this->_loadPlugins();
         }
+
         foreach ($this->plugins as $plugin) {
-            if ($this->pluginManger->Status($plugin['plugin']) != PluginManger::STATUS_ENABLED) {
+            if ($this->pluginManger->status($plugin['plugin']) != PluginManger::STATUS_ENABLED) {
                 continue;
             }
             if (!method_exists($plugin, 'AdminCp') && !$plugin['plugin']->setAdminCp()) {

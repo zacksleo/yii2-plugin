@@ -25,18 +25,18 @@ class Plugin extends ActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @inheritdoc
      */
     public function rules()
     {
-
         return [
-            ['identify, path, hooks', 'required'],
-            ['enable', 'numerical', 'integerOnly' => true],
-            ['identify', 'length', 'max' => 45],
-            ['path', 'length', 'max' => 255],
-            ['identify', 'unique'],
-            ['plugin_id, identify, path, hooks, enable', 'safe', 'on' => 'search'],
+            [['identify', 'path', 'hooks'], 'required'],
+            [['hooks'], 'string'],
+            [['enable'], 'integer'],
+            [['identify'], 'string', 'max' => 45],
+            [['path'], 'string', 'max' => 255],
+            [['identify'], 'unique'],
+            ['plugin_id', 'safe']
         ];
     }
 

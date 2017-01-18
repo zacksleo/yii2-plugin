@@ -25,15 +25,14 @@ class PluginSetting extends ActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['plugin, key', 'required'],
-            ['plugin, key', 'length', 'max' => 45],
-            ['value', 'safe'],
-            ['plugin, key, value', 'safe', 'on' => 'search'],
+            [['plugin', 'key'], 'required'],
+            [['plugin', 'key'], 'string', 'max' => 45],
+            ['value','safe'],
         ];
     }
 
@@ -70,10 +69,27 @@ class PluginSetting extends ActiveRecord
         return $row->value;
     }
 
+    /**
+     * 获取插件的所有配置参数
+     * @param $plugin
+     * @return array
+     */
+    public static function getValues($plugin)
+    {
+        $tmpData = self::findAll([
+            'plugin' => $plugin
+        ]);
+        $model = array();
+        foreach ($tmpData as $value) {
+            $model[$value->attributes['key']] = $value->attributes['value'];
+        }
+        return $model;
+    }
+
     public static function set($plugin, $key, $value = NULL)
     {
         $row = self::get($plugin, $key);
-        if ($row === FALSE) {
+        if ($row === false) {
             $model = new PluginSetting();
             $model->setIsNewRecord(true);
             $model->plugin = $plugin;

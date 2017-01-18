@@ -2,7 +2,7 @@
 namespace zacksleo\yii2\plugin\components;
 
 use yii;
-use yii\base\Controller;
+use yii\web\Controller;
 use zacksleo\yii2\plugin\models\PluginSetting;
 use yii\helpers\Url;
 
@@ -25,7 +25,7 @@ class PluginBase extends Controller
         $getter = 'get' . $name;
         if (method_exists($this, $getter))
             return $this->$getter();
-        return FALSE;
+        return false;
     }
 
     /**
@@ -49,7 +49,7 @@ class PluginBase extends Controller
      * @param string $path the asset (file or directory) to be published
      * @return string an absolute URL to the published asset
      */
-    public function PublishAssets($path, $absolute = true)
+    public function publishAssets($path, $absolute = true)
     {
         if (substr($path, 0, 1) != '/') {
             $path = DIRECTORY_SEPARATOR . $path;
@@ -87,10 +87,10 @@ class PluginBase extends Controller
      * @param  boolean $return whether the rendering result should be returned instead of being displayed to end users.
      * @return string          the rendering result. Null if the rendering result is not required.
      */
-    public function render($view, $data = NULL, $return = FALSE)
+    public function render($view, $data = NULL, $return = false)
     {
         if (!$view)
-            return FALSE;
+            return false;
         if (($viewFile = $this->getViewFile($view)) !== FALSE) {
             return $this->renderFile($viewFile, $data);
         }
@@ -282,8 +282,6 @@ class PluginBase extends Controller
         Yii::$app->session->destroy();
     }
 
-    ##################################################
-
     public function getViewFile($viewName)
     {
         $ext = '.php';
@@ -298,7 +296,16 @@ class PluginBase extends Controller
         if (is_file($viewFile)) {
             return $viewFile;
         }
-        return FALSE;
+        return false;
     }
 
+    public function registerCss()
+    {
+
+    }
+
+    public function registerJs()
+    {
+
+    }
 }
