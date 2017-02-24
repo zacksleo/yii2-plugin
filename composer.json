@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "zacksleo\\yii2\\plugin\\": ""
+      "zacksleo\\yii2\\plugin\\": "src"
     }
   }
 }
