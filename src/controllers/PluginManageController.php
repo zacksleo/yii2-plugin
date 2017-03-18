@@ -272,4 +272,3 @@ class PluginManageController extends Controller
         Yii::$app->end();
     }
 }
-
