@@ -13,7 +13,6 @@ use zacksleo\yii2\plugin\models\PluginSetting;
  */
 abstract class Plugin extends PluginBase
 {
-
     public $identify;
 
     private $info = [
@@ -171,6 +170,4 @@ abstract class Plugin extends PluginBase
             return false;
         }
     }
-
 }
-

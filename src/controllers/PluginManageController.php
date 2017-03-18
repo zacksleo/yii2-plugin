@@ -186,8 +186,9 @@ class PluginManageController extends Controller
                     if (is_dir($folder . DIRECTORY_SEPARATOR . $file)) {
                         $this->_getPlugins($folder . DIRECTORY_SEPARATOR . $file);
                     } else {
-                        if (preg_match('/^[\w_]+Plugin.php$/', $file))
+                        if (preg_match('/^[\w_]+Plugin.php$/', $file)) {
                             $this->plugins[] = ['path' => $folder, 'pluginEntry' => $file];
+                        }
                     }
                 }
             }
