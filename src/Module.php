@@ -16,7 +16,6 @@ class Module extends BaseModule
     public $controllerNamespace = 'zacksleo\yii2\plugin\controllers';
 
     /**
-     *
      * @var string source language for translation
      */
     public $sourceLanguage = 'en-US';
@@ -28,7 +27,6 @@ class Module extends BaseModule
     /**
      * {@inheritdoc}
      */
-
     public $pluginRoot = 'application.plugin';
 
     public $pluginNamespace = 'app\plugins';
