@@ -106,9 +106,9 @@ abstract class Plugin extends PluginBase
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
-            return FALSE;
+            return false;
         }
-        return TRUE;
+        return true;
     }
 
     /**
@@ -152,8 +152,9 @@ abstract class Plugin extends PluginBase
     public function __get($name)
     {
         $value = parent::__get($name);
-        if ($value !== false)
+        if ($value !== false) {
             return $value;
+        }
         if (isset($this->info[$name])) {
             return htmlspecialchars($this->info[$name]);
         }

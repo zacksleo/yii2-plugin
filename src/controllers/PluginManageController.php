@@ -14,7 +14,6 @@ use zacksleo\yii2\plugin\components\PluginManger;
  */
 class PluginManageController extends Controller
 {
-
     public $layout;
     public $adminLayout;
     public $menu = [];
@@ -117,7 +116,6 @@ class PluginManageController extends Controller
 
     public function actionMarket()
     {
-
     }
 
     public function actionInstall()
@@ -137,8 +135,9 @@ class PluginManageController extends Controller
 
     public function actionUninstall()
     {
-        if (!isset($_POST['id']))
+        if (!isset($_POST['id'])) {
             $this->_ajax(0);
+        }
         $id = $_POST['id'];
         $plugin = $this->_loadPluginFromIdentify($id);
         $result = $this->pluginManger->uninstall($plugin);
@@ -271,7 +270,5 @@ class PluginManageController extends Controller
         echo json_encode(array('status' => $status, 'data' => $data));
         Yii::$app->end();
     }
-
 }
 
-?>

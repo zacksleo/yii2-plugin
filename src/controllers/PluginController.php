@@ -7,7 +7,6 @@ use zacksleo\yii2\plugin\models\Plugin;
 
 class PluginController extends Controller
 {
-
     public $layout = '/';
 
     public function actionIndex()
@@ -54,8 +53,9 @@ class PluginController extends Controller
     {
         @include_once($model->path . DIRECTORY_SEPARATOR . $model->identify . 'Plugin.php');
         $class = $model->identify . 'Plugin';
-        if (!class_exists($class))
+        if (!class_exists($class)) {
             return false;
+        }
         return new $class();
     }
 

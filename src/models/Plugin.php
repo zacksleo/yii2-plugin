@@ -53,5 +53,4 @@ class Plugin extends ActiveRecord
             'enable' => 'Enable',
         ];
     }
-
 }

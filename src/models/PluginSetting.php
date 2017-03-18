@@ -105,5 +105,4 @@ class PluginSetting extends ActiveRecord
             ]);
         }
     }
-
 }

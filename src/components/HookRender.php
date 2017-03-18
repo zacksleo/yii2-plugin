@@ -8,10 +8,8 @@ use zacksleo\yii2\plugin\components;
 $moduleDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..';
 Yii::setAlias('pluginModule', $moduleDir);
 
-
 class HookRender
 {
-
     protected $hooks = [];
 
     public function init()
@@ -21,7 +19,6 @@ class HookRender
 
     public function render($pos)
     {
-
         if (empty($this->hooks)) {
             return;
         }
@@ -64,7 +61,5 @@ class HookRender
         }
         return true;
     }
-
 }
 
-?>

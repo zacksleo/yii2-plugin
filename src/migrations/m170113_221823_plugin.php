@@ -13,7 +13,6 @@ use yii\db\Migration;
 
 class m170113_221823_plugin extends Migration
 {
-
     public function up()
     {
         $this->createTable('{{%plugin}}', [

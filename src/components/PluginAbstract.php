@@ -28,4 +28,3 @@ abstract class PluginAbstract extends PluginBase
         $this->pluginDir = $plugin->pluginDir;
     }
 }
-

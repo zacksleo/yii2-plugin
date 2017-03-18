@@ -299,8 +299,9 @@ class PluginBase extends Controller
     public function getViewFile($viewName)
     {
         $ext = '.php';
-        if (strpos($viewName, '.'))
+        if (strpos($viewName, '.')) {
             $viewName = str_replace('.', '/', $viewName);
+        }
         $root = $this->viewDir ? $this->pluginDir . DIRECTORY_SEPARATOR . $this->viewDir : $this->pluginDir;
         if ($this->i18n == 'path') {
             $root = $root . DIRECTORY_SEPARATOR . Yii::$app->getLanguage();
@@ -315,11 +316,9 @@ class PluginBase extends Controller
 
     public function registerCss()
     {
-
     }
 
     public function registerJs()
     {
-
     }
 }
