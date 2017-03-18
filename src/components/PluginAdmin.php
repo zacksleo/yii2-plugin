@@ -26,7 +26,8 @@ class PluginAdmin extends PluginAbstract
      * @param  string $key key identifying the flash message
      * @param  mixed $defaultValue value to be returned if the flash message is not available.
      * @param  boolean $delete whether to delete this flash message after accessing it. Defaults to true.
-     * @return mixed                the message message
+     *
+     * @return mixed  the message message
      */
     public function getFlash($key, $defaultValue = NULL, $delete = true)
     {
@@ -42,5 +43,4 @@ class PluginAdmin extends PluginAbstract
     {
         return Yii::$app->session->getAllFlashes();
     }
-
 }

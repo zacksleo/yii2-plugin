@@ -8,5 +8,4 @@ namespace zacksleo\yii2\plugin\components;
  */
 class PluginAction extends PluginAbstract
 {
-
 }

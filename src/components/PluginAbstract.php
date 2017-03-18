@@ -4,7 +4,6 @@ namespace zacksleo\yii2\plugin\components;
 
 abstract class PluginAbstract extends PluginBase
 {
-
     public $plugin;
 
     public function run()
@@ -15,7 +14,7 @@ abstract class PluginAbstract extends PluginBase
     public function __get($name)
     {
         $value = parent::__get($name);
-        if (!$value && $this->plugin->$name !== NULL) {
+        if (!$value && $this->plugin->$name !== null) {
             return $this->plugin->$name;
         } else {
             return $value;
@@ -28,6 +27,6 @@ abstract class PluginAbstract extends PluginBase
         $this->i18n = $plugin->i18n;
         $this->pluginDir = $plugin->pluginDir;
     }
-
 }
+
 

@@ -2,13 +2,12 @@
 namespace zacksleo\yii2\plugin\components;
 
 use yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use zacksleo\yii2\plugin\models\PluginSetting;
-use yii\helpers\Url;
 
 class PluginBase extends Controller
 {
-
     public $pluginDir;
     public $viewDir = 'views';
     public $i18n;
@@ -16,25 +15,28 @@ class PluginBase extends Controller
     public function __construct()
     {
         parent::__construct($this->id, $this->module, []);
-        if (method_exists($this, 'init'))
+        if (method_exists($this, 'init')) {
             $this->init();
+        }
     }
 
     public function __get($name)
     {
         $getter = 'get' . $name;
-        if (method_exists($this, $getter))
+        if (method_exists($this, $getter)) {
             return $this->$getter();
+        }
         return false;
     }
 
     /**
      * translate a string
-     * see http://www.yiiframework.com/doc/api/1.1/YiiBase#t-detail for detail
+     * @see http://www.yiiframework.com/doc/api/1.1/YiiBase#t-detail for detail.
      * @param string $category source filename
      * @param string $message the original message
      * @param array $params parameters to be applied to the message
      * @param string $language the target language
+     *
      * @return string translated the translated message
      */
     public function T($category, $message, $params = array(), $language = NULL)
@@ -60,9 +62,11 @@ class PluginBase extends Controller
     }
 
     /**
-     * get coustom plugin setting
-     * @param  string $key setting key
-     * @return string      setting value
+     * get coustom plugin setting.
+     *
+     * @param string $key setting key
+     *
+     * @return string setting value
      */
     public function getSetting($key)
     {
@@ -70,9 +74,11 @@ class PluginBase extends Controller
     }
 
     /**
-     * set coustom plugin setting
+     * set coustom plugin setting.
+     *
      * @param string $key setting key
      * @param string $value setting value
+     *
      * @return boolean
      */
     public function setSetting($key, $value = NULL)
@@ -81,16 +87,19 @@ class PluginBase extends Controller
     }
 
     /**
-     * render a view
+     * render a view.
+     *
      * @param  string $view name of the view to be rendered, the root is <PluginDir>/<viewDir>
      * @param  array $data data to be extracted into PHP variables and made available to the view script
      * @param  boolean $return whether the rendering result should be returned instead of being displayed to end users.
+     *
      * @return string          the rendering result. Null if the rendering result is not required.
      */
     public function render($view, $data = NULL, $return = false)
     {
-        if (!$view)
+        if (!$view) {
             return false;
+        }
         if (($viewFile = $this->getViewFile($view)) !== FALSE) {
             return $this->renderFile($viewFile, $data);
         }
@@ -98,10 +107,12 @@ class PluginBase extends Controller
 
     /**
      * Creates a URL for the specified action defined in plugin.
+     *
      * @param  string $action plugin action name of this url
      * @param  array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded. If the name is '#', the corresponding value will be treated as an anchor and will be appended at the end of the URL.
      * @param  boolean $absolute is a absolute url or a relative url
-     * @return string            the constructed URL
+     *
+     * @return string the constructed URL
      */
     public function createUrl($action = NULL, $params = array(), $absolute = false)
     {
@@ -119,10 +130,12 @@ class PluginBase extends Controller
 
     /**
      * Creates a relative URL for the specified action defined in system controllers (outside of plugin).
+     *
      * @param  string $route the URL route. This should be in the format of 'ControllerID/ActionID'. If the ControllerID is not present, the current controller ID will be prefixed to the route. If the route is empty, it is assumed to be the current action. If the controller belongs to a module, the module ID will be prefixed to the route. (If you do not want the module ID prefix, the route should start with a slash '/'.)
      * @param  array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded. If the name is '#', the corresponding value will be treated as an anchor and will be appended at the end of the URL.
      * @param  string $ampersand the token separating name-value pairs in the URL.
-     * @return string            the constructed URL
+     *
+     * @return string the constructed URL
      */
     public function createSystemUrl($route, $params = array(), $ampersand = '&')
     {
@@ -131,7 +144,9 @@ class PluginBase extends Controller
 
     /**
      * Redirects the browser to the specified URL
+     *
      * @param  string $url the URL to be redirected to
+     * @return string
      */
     public function redirect($url)
     {
@@ -140,7 +155,6 @@ class PluginBase extends Controller
         exit;
     }
 
-    ### Cookie
     /**
      * setCookie
      * @param string $key cookie identify

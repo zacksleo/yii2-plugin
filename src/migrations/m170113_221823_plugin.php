@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Yii-Plugin module
+ * Yii-Plugin module.
  *
  * @author zacksleo <zacksleo@gmail.com>
  * @link https://github.com/zacksleo/yii2-plugin
  * @license MIT
  * @version 1.0
  */
-use yii\db\Schema;
+
 use yii\db\Migration;
 
 class m170113_221823_plugin extends Migration

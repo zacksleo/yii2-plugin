@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use zacksleo\yii2\plugin\models\PluginSetting;
 
 /**
- * Class Plugin
+ * Class Plugin.
  * @package zacksleo\yii2\plugin\components
  * @property string $identify
  */
@@ -42,7 +42,7 @@ abstract class Plugin extends PluginBase
 
     /**
      * adv usage
-     * return an array of Actions's class name
+     * return an array of Actions's class name.
      * @return array Actions list
      */
     public function actions()
@@ -64,7 +64,8 @@ abstract class Plugin extends PluginBase
      * install plugin
      * this method will called automatic when "Install" clicked.
      * inherit this method to do more things such as execute a sql statement
-     * MUST TETURN TRUE
+     * MUST TETURN TRUE.
+     *
      * @return boolean
      */
     public function install()
@@ -85,12 +86,7 @@ abstract class Plugin extends PluginBase
     }
 
     /**
-     * *************************************************
-     *  methods below can be used in plugins
-     * *************************************************
-     */
-
-    /**
+     * methods below can be used in plugins.
      * execute a sql statement
      * prefix in sql will be replace to the project's prefix
      * @param string $sql sql statement
@@ -101,8 +97,9 @@ abstract class Plugin extends PluginBase
     {
         $db = Yii::$app->db;
         $tablePrefix = $db->tablePrefix;
-        if ($tablePrefix != $prefix)
+        if ($tablePrefix != $prefix) {
             $sql = str_replace($prefix, $tablePrefix, $sql);
+        }
         $transaction = $db->beginTransaction();
         try {
             $db->createCommand($sql)->execute();
@@ -115,9 +112,7 @@ abstract class Plugin extends PluginBase
     }
 
     /**
-     * ****************************************
-     *   Internal methods
-     * ****************************************
+     * Internal methods
      */
     public function icon()
     {

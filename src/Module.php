@@ -6,12 +6,12 @@ use yii;
 use yii\base\Module as BaseModule;
 
 /**
- * portal module definition class
+ * portal module definition class.
  */
 class Module extends BaseModule
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $controllerNamespace = 'zacksleo\yii2\plugin\controllers';
 
@@ -22,11 +22,11 @@ class Module extends BaseModule
     public $sourceLanguage = 'en-US';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $layout = 'main';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
 
     public $pluginRoot = 'application.plugin';
@@ -37,7 +37,7 @@ class Module extends BaseModule
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -48,7 +48,7 @@ class Module extends BaseModule
     }
 
     /**
-     * Registers the translation files
+     * Registers the translation files.
      */
     protected function registerTranslations()
     {
@@ -63,7 +63,7 @@ class Module extends BaseModule
     }
 
     /**
-     * Translates a message. This is just a wrapper of Yii::t
+     * Translates a message. This is just a wrapper of Yii::t.
      *
      * @see Yii::t
      *
@@ -75,6 +75,6 @@ class Module extends BaseModule
      */
     public static function t($category, $message, $params = [], $language = null)
     {
-        return Yii::t('zacksleo/yii2/plugin/' . $category, $message, $params, $language);
+        return Yii::t('zacksleo/yii2/plugin/'. $category, $message, $params, $language);
     }
 }

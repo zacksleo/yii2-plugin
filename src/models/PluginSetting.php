@@ -17,7 +17,7 @@ class PluginSetting extends ActiveRecord
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -25,14 +25,14 @@ class PluginSetting extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
             [['plugin', 'key'], 'required'],
             [['plugin', 'key'], 'string', 'max' => 45],
-            ['value','safe'],
+            ['value', 'safe'],
         ];
     }
 
@@ -86,7 +86,7 @@ class PluginSetting extends ActiveRecord
         return $model;
     }
 
-    public static function set($plugin, $key, $value = NULL)
+    public static function set($plugin, $key, $value = null)
     {
         $row = self::get($plugin, $key);
         if ($row === false) {
