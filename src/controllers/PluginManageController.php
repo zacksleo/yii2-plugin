@@ -17,11 +17,11 @@ class PluginManageController extends Controller
 
     public $layout;
     public $adminLayout;
-    public $menu = array();
+    public $menu = [];
     public $defaultIcon;
     public $module;
     private $folder;
-    private $plugins = array();
+    private $plugins = [];
     private $pluginManger;
     public $enableCsrfValidation = false;
 
@@ -94,7 +94,7 @@ class PluginManageController extends Controller
         } elseif ($plugin->setAdminCp()) {
             $file = $plugin->setAdminCp();
             include_once($plugin->pluginDir . DIRECTORY_SEPARATOR . $file . '.php');
-            if (strpos($file, '/') !== FALSE) {
+            if (strpos($file, '/') !== false) {
                 $class = end(explode('/', $file));
             } else {
                 $class = $file;
@@ -122,8 +122,9 @@ class PluginManageController extends Controller
 
     public function actionInstall()
     {
-        if (!isset($_POST['id']))
+        if (!isset($_POST['id'])) {
             $this->_ajax(0);
+        }
         $id = $_POST['id'];
         $plugin = $this->_loadPluginFromIdentify($id);
         $result = $this->pluginManger->install($plugin);
@@ -150,8 +151,9 @@ class PluginManageController extends Controller
 
     public function actionEnable()
     {
-        if (!isset($_POST['id']))
+        if (!isset($_POST['id'])) {
             $this->_ajax(0);
+        }
         $id = $_POST['id'];
         $plugin = $this->_loadPluginFromIdentify($id);
         if ($this->pluginManger->enable($plugin)) {
@@ -164,8 +166,9 @@ class PluginManageController extends Controller
 
     public function actionDisable()
     {
-        if (!isset($_POST['id']))
+        if (!isset($_POST['id'])) {
             $this->_ajax(0);
+        }
         $id = $_POST['id'];
         $plugin = $this->_loadPluginFromIdentify($id);
         if ($this->pluginManger->disable($plugin)) {
@@ -185,7 +188,7 @@ class PluginManageController extends Controller
                         $this->_getPlugins($folder . DIRECTORY_SEPARATOR . $file);
                     } else {
                         if (preg_match('/^[\w_]+Plugin.php$/', $file))
-                            $this->plugins[] = array('path' => $folder, 'pluginEntry' => $file);
+                            $this->plugins[] = ['path' => $folder, 'pluginEntry' => $file];
                     }
                 }
             }
@@ -237,8 +240,9 @@ class PluginManageController extends Controller
 
     private function _setMenu($force = false)
     {
-        if (!$force)
+        if (!$force) {
             $cache = Yii::$app->cache->get('PluginMenu');
+        }
         if (isset($cache)) {
             $this->menu = $cache;
             return;
@@ -261,7 +265,7 @@ class PluginManageController extends Controller
         Yii::$app->cache->set('PluginMenu', $this->menu);
     }
 
-    private function _ajax($status, $data = NULL)
+    private function _ajax($status, $data = null)
     {
         header('Content-type: application/json');
         echo json_encode(array('status' => $status, 'data' => $data));

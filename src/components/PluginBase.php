@@ -39,10 +39,10 @@ class PluginBase extends Controller
      *
      * @return string translated the translated message
      */
-    public function T($category, $message, $params = array(), $language = NULL)
+    public function T($category, $message, $params = array(), $language = null)
     {
         $category = $this->identify . 'Plugin.' . $category;
-        return Yii::t($category, $message, $params, NULL, $language);
+        return Yii::t($category, $message, $params, null, $language);
     }
 
     /**
@@ -81,7 +81,7 @@ class PluginBase extends Controller
      *
      * @return boolean
      */
-    public function setSetting($key, $value = NULL)
+    public function setSetting($key, $value = null)
     {
         return PluginSetting::set($this->identify, $key, $value);
     }
@@ -95,12 +95,12 @@ class PluginBase extends Controller
      *
      * @return string          the rendering result. Null if the rendering result is not required.
      */
-    public function render($view, $data = NULL, $return = false)
+    public function render($view, $data = null, $return = false)
     {
         if (!$view) {
             return false;
         }
-        if (($viewFile = $this->getViewFile($view)) !== FALSE) {
+        if (($viewFile = $this->getViewFile($view)) !== false) {
             return $this->renderFile($viewFile, $data);
         }
     }
@@ -114,7 +114,7 @@ class PluginBase extends Controller
      *
      * @return string the constructed URL
      */
-    public function createUrl($action = NULL, $params = array(), $absolute = false)
+    public function createUrl($action = null, $params = [], $absolute = false)
     {
         if ($action) {
             $url = Url::to(['/plugin/plugin/index', array_merge($params, ['id' => $this->identify, 'action' => $action])]);
@@ -137,7 +137,7 @@ class PluginBase extends Controller
      *
      * @return string the constructed URL
      */
-    public function createSystemUrl($route, $params = array(), $ampersand = '&')
+    public function createSystemUrl($route, $params = [], $ampersand = '&')
     {
         return Url::to([$route, $params, $ampersand]);
     }
@@ -162,7 +162,7 @@ class PluginBase extends Controller
      * @param array $option cookie options, array(option=>value),  such as 'expire','httpOnly','domain'.
      */
 
-    public function setCookie($key, $value = NULL, $option = array())
+    public function setCookie($key, $value = null, $option = [])
     {
         $options = array('expire', 'httpOnly', 'path', 'secure', 'domain');
         $cookie = new CHttpCookie($key, $value);

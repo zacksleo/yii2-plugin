@@ -15,7 +15,7 @@ use zacksleo\yii2\plugin\Module;
     </div>
     <div class="portlet-body">
         <?php foreach ($plugins as $status => $_plugins):
-        if (empty($_plugins)){
+        if (empty($_plugins)) {
             continue;
         }
         ?>

@@ -64,7 +64,7 @@ class PluginSetting extends ActiveRecord
             'key' => $key
         ]);
         if (empty($row)) {
-            return FALSE;
+            return false;
         }
         return $row->value;
     }

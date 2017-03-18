@@ -29,4 +29,3 @@ abstract class PluginAbstract extends PluginBase
     }
 }
 
-

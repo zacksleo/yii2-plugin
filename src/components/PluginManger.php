@@ -11,7 +11,6 @@ use zacksleo\yii2\plugin\models\Plugin;
  */
 class PluginManger
 {
-
     protected $pluginCache;
 
     const STATUS_NOT_INSTALLED = 0;
@@ -150,7 +149,5 @@ class PluginManger
             return false;
         }
     }
-
 }
 
-?>

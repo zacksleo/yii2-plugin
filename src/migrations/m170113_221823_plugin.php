@@ -41,5 +41,4 @@ class m170113_221823_plugin extends Migration
         $this->dropTable('{{%plugin}}');
         $this->dropTable('{{%plugin_setting}}');
     }
-
 }

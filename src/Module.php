@@ -73,6 +73,6 @@ class Module extends BaseModule
      */
     public static function t($category, $message, $params = [], $language = null)
     {
-        return Yii::t('zacksleo/yii2/plugin/'. $category, $message, $params, $language);
+        return Yii::t('zacksleo/yii2/plugin/' . $category, $message, $params, $language);
     }
 }

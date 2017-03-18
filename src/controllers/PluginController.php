@@ -55,7 +55,7 @@ class PluginController extends Controller
         @include_once($model->path . DIRECTORY_SEPARATOR . $model->identify . 'Plugin.php');
         $class = $model->identify . 'Plugin';
         if (!class_exists($class))
-            return FALSE;
+            return false;
         return new $class();
     }
 
@@ -64,11 +64,8 @@ class PluginController extends Controller
         @include_once($plugin->path . DIRECTORY_SEPARATOR . 'actions' . DIRECTORY_SEPARATOR . $plugin->identify . $file . '.php');
         $class = $plugin->identify . $file;
         if (!class_exists($class)) {
-            return FALSE;
+            return false;
         }
         return new $class();
     }
-
 }
-
-?>

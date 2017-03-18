@@ -29,7 +29,7 @@ class PluginAdmin extends PluginAbstract
      *
      * @return mixed  the message message
      */
-    public function getFlash($key, $defaultValue = NULL, $delete = true)
+    public function getFlash($key, $defaultValue = null, $delete = true)
     {
         return Yii::$app->session->getFlash($key, $defaultValue, $delete);
     }

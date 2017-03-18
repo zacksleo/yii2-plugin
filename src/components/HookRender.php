@@ -5,7 +5,7 @@ use yii;
 use zacksleo\yii2\plugin\models\Plugin;
 use zacksleo\yii2\plugin\components;
 
-$moduleDir = dirname(__FILE__) . DIRECTORY_SEPARATOR .'..';
+$moduleDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..';
 Yii::setAlias('pluginModule', $moduleDir);
 
 
@@ -31,7 +31,7 @@ class HookRender
         }
         foreach ($hooks as $hook) {
             /* @var $plugin \zacksleo\yii2\plugin\components\Plugin */
-            $class = new \ReflectionClass($hook['path'].'\\'.$hook['identify'] . 'Plugin');
+            $class = new \ReflectionClass($hook['path'] . '\\' . $hook['identify'] . 'Plugin');
             $instance = $class->newInstance();
             if (!class_exists($instance)) {
                 continue;
