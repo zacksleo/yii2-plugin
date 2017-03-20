@@ -1,5 +1,9 @@
 # Plugin Module
 
+[![Latest Stable Version](https://poser.pugx.org/zacksleo/yii2-plugin/version)](https://packagist.org/packages/zacksleo/yii2-plugin)
+[![Total Downloads](https://poser.pugx.org/zacksleo/yii2-plugin/downloads)](https://packagist.org/packages/zacksleo/yii2-plugin)
+[![License](https://poser.pugx.org/zacksleo/yii2-plugin/license)](https://packagist.org/packages/zacksleo/yii2-plugin)
+
 Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](http://geoip.flagfox.net/flags/CN.png)](https://github.com/health901/Yii-Plugin/blob/master/README_cn.md)
 
 ---
