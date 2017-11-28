@@ -55,6 +55,7 @@ class Module extends BaseModule
             'sourceLanguage' => $this->sourceLanguage,
             'basePath' => '@zacksleo/yii2/plugin/messages',
             'fileMap' => [
+                'zacksleo/yii2/plugin/lang' => 'lang.php',
                 'zacksleo/yii2/plugin/plugin' => 'plugin.php',
             ],
         ];

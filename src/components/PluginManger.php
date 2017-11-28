@@ -102,7 +102,7 @@ class PluginManger
     {
         $model = new Plugin();
         $model->identify = $plugin->identify;
-        $model->path = $plugin->pluginDir;
+        $model->path = $plugin::className();
         $model->hooks = serialize($plugin->hooks());
         return $model->save();
     }

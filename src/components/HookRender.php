@@ -3,12 +3,11 @@ namespace zacksleo\yii2\plugin\components;
 
 use yii;
 use zacksleo\yii2\plugin\models\Plugin;
-use zacksleo\yii2\plugin\components;
 
 $moduleDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..';
 Yii::setAlias('pluginModule', $moduleDir);
 
-class HookRender
+class HookRender extends yii\base\Object
 {
     protected $hooks = [];
 
@@ -28,9 +27,8 @@ class HookRender
         }
         foreach ($hooks as $hook) {
             /* @var $plugin \zacksleo\yii2\plugin\components\Plugin */
-            $class = new \ReflectionClass($hook['path'] . '\\' . $hook['identify'] . 'Plugin');
-            $instance = $class->newInstance();
-            if (!class_exists($instance)) {
+            $class = $hook['path'];
+            if (!class_exists($class)) {
                 continue;
             }
             $plugin = new $class();
@@ -40,17 +38,17 @@ class HookRender
                 if (!$h) {
                     continue;
                 }
-                $h->run();
+                return $h->run();
             } else {
                 $render = $act[0];
-                $plugin->$render();
+                return $plugin->$render();
             }
         }
     }
 
     protected function getHooks()
     {
-        $plugins = Plugin::findOne(['enable' => true]);
+        $plugins = Plugin::findAll(['enable' => true]);
         if (!$plugins) {
             return;
         }

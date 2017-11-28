@@ -1,4 +1,5 @@
 <?php
+
 namespace zacksleo\yii2\plugin\controllers;
 
 use yii;
@@ -86,10 +87,7 @@ class PluginManageController extends Controller
         $this->_setMenu();
         $plugin = $this->_loadPluginFromIdentify($id);
         if (method_exists($plugin, 'AdminCp')) {
-            ob_start();
-            $plugin->AdminCp();
-            $content = ob_get_contents();
-            ob_end_clean();
+            $content =$plugin->admincp();
         } elseif ($plugin->setAdminCp()) {
             $file = $plugin->setAdminCp();
             include_once($plugin->pluginDir . DIRECTORY_SEPARATOR . $file . '.php');
@@ -104,10 +102,7 @@ class PluginManageController extends Controller
             }
             $AdminCp = new $class();
             $AdminCp->Owner($plugin);
-            ob_start();
-            $AdminCp->run();
-            $content = ob_get_contents();
-            ob_end_clean();
+            $content = $AdminCp->run();
         } else {
             return $this->redirect(array('plugin/PluginManage/index'));
         }
@@ -186,7 +181,7 @@ class PluginManageController extends Controller
                     if (is_dir($folder . DIRECTORY_SEPARATOR . $file)) {
                         $this->_getPlugins($folder . DIRECTORY_SEPARATOR . $file);
                     } else {
-                        if (preg_match('/^[\w_]+Plugin.php$/', $file)) {
+                        if ($file == 'composer.json') {
                             $this->plugins[] = ['path' => $folder, 'pluginEntry' => $file];
                         }
                     }
@@ -202,9 +197,8 @@ class PluginManageController extends Controller
     {
         $plugins = [];
         foreach ($this->plugins as $k => $plugin) {
-            @include_once($plugin['path'] . DIRECTORY_SEPARATOR . $plugin['pluginEntry']);
-            $class = substr($plugin['pluginEntry'], 0, strlen($plugin['pluginEntry']) - 4);
-            $class = $this->module->pluginNamespace . '\\' . $class;
+            $contents = json_decode(file_get_contents($plugin['path'] . '/composer.json'), true);
+            $class = $contents['extra']['class'];
             if (class_exists($class)) {
                 $this->plugins[$k]['plugin'] = new $class();
                 $this->plugins[$k]['status'] = $this->pluginManger->status($this->plugins[$k]['plugin']);
@@ -227,9 +221,8 @@ class PluginManageController extends Controller
         }
         foreach ($plugins as $plugin) {
             if ($plugin['identify'] == $identify) {
-                @include_once($plugin['path'] . DIRECTORY_SEPARATOR . $plugin['pluginEntry']);
-                $class = substr($plugin['pluginEntry'], 0, strlen($plugin['pluginEntry']) - 4);
-                $class = $this->module->pluginNamespace . '\\' . $class;
+                $contents = json_decode(file_get_contents($plugin['path'] . '/composer.json'), true);
+                $class = $contents['extra']['class'];
                 if (class_exists($class)) {
                     return new $class();
                 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace zacksleo\yii2\plugin\components;
 
 use yii;
@@ -146,9 +147,10 @@ class PluginBase extends Controller
      * Redirects the browser to the specified URL
      *
      * @param  string $url the URL to be redirected to
+     * @param  integer $statusCode
      * @return string
      */
-    public function redirect($url)
+    public function redirect($url, $statusCode = 200)
     {
         $url = $url ? $url : $_SERVER['REQUEST_URI'];
         header('Location: ' . $url);
@@ -214,6 +216,7 @@ class PluginBase extends Controller
     }
 
     ### Cache
+
     /**
      * store the value with a key into cache
      * @param string $key a key identifying the cached value
@@ -257,6 +260,7 @@ class PluginBase extends Controller
     }
 
     ### Session
+
     /**
      * Adds a session variable. Note, if the specified name already exists, the old value will be removed first.
      * @param string $key session variable name
