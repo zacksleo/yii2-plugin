@@ -1,4 +1,5 @@
 <?php
+
 namespace zacksleo\yii2\plugin\components;
 
 use yii;
@@ -21,7 +22,7 @@ class HookRender extends yii\base\Object
         if (empty($this->hooks)) {
             return;
         }
-        if(!isset($this->hooks[$pos])){
+        if (!isset($this->hooks[$pos])) {
             return;
         }
         $hooks = $this->hooks[$pos];
