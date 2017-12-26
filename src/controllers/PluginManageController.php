@@ -182,7 +182,11 @@ class PluginManageController extends Controller
                         $this->_getPlugins($folder . DIRECTORY_SEPARATOR . $file);
                     } else {
                         if ($file == 'composer.json') {
-                            $this->plugins[] = ['path' => $folder, 'pluginEntry' => $file];
+                            $contents = json_decode(file_get_contents($folder . '/composer.json'), true);
+                            $class = $contents['extra']['class'];
+                            if (class_exists($class)) {
+                                $this->plugins[] = ['path' => $folder, 'pluginEntry' => $file];
+                            }
                         }
                     }
                 }

@@ -26,10 +26,10 @@ use zacksleo\yii2\plugin\Module;
                     echo '<h4 class="text-success">' . Module::t("plugin", "Enabled Plugins") . ': </h4>';
                     break;
                 case PluginManger::STATUS_INSTALLED:
-                    echo '<h4 class="text-warning">' . Module::t("PluginModule.lang", "Disabled Plugins") . ': </h4>';
+                    echo '<h4 class="text-warning">' . Module::t("plugin", "Disabled Plugins") . ': </h4>';
                     break;
                 case PluginManger::STATUS_NOT_INSTALLED:
-                    echo '<h4 class="text-info">' . Module::t("PluginModule.lang", "Not Installed Plugins") . ': </h4>';
+                    echo '<h4 class="text-info">' . Module::t("plugin", "Not Installed Plugins") . ': </h4>';
                     break;
             endswitch;
             ?>
