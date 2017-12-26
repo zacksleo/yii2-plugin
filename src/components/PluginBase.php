@@ -144,20 +144,6 @@ class PluginBase extends Controller
     }
 
     /**
-     * Redirects the browser to the specified URL
-     *
-     * @param  string $url the URL to be redirected to
-     * @param  integer $statusCode
-     * @return string
-     */
-    public function redirect($url, $statusCode = 200)
-    {
-        $url = $url ? $url : $_SERVER['REQUEST_URI'];
-        header('Location: ' . $url);
-        exit;
-    }
-
-    /**
      * setCookie
      * @param string $key cookie identify
      * @param mixed $value value of cookie
