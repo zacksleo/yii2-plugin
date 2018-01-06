@@ -2,6 +2,7 @@
 
 namespace zacksleo\yii2\plugin\components;
 
+use Exception;
 use yii;
 use yii\helpers\Url;
 use zacksleo\yii2\plugin\models\PluginSetting;

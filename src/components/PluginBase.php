@@ -118,7 +118,10 @@ class PluginBase extends Controller
     public function createUrl($action = null, $params = [], $absolute = false)
     {
         if ($action) {
-            $url = Url::to(['/plugin/plugin/index', array_merge($params, ['id' => $this->identify, 'action' => $action])]);
+            $url = Url::to([
+                '/plugin/plugin/index',
+                array_merge($params, ['id' => $this->identify, 'action' => $action])
+            ]);
         } else {
             $url = Url::to(['/plugin/plugin/index', array_merge($params, ['id' => $this->identify])]);
         }
@@ -153,13 +156,15 @@ class PluginBase extends Controller
     public function setCookie($key, $value = null, $option = [])
     {
         $options = array('expire', 'httpOnly', 'path', 'secure', 'domain');
-        $cookie = new CHttpCookie($key, $value);
+        $cookie = new yii\web\Cookie();
+        $cookie->name = $key;
+        $cookie->value = $value;
         foreach ($options as $opt) {
             if (isset($option[$opt])) {
                 $cookie->$opt = $option[$opt];
             }
         }
-        Yii::$app->request->cookies[$key] = $cookie;
+        Yii::$app->response->cookies[$key] = $cookie;
     }
 
     /**

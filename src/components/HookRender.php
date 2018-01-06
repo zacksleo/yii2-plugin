@@ -45,7 +45,7 @@ class HookRender extends yii\base\Object
                 return $h->run();
             } else {
                 $render = $act[0];
-                return $plugin->$render();
+                echo $plugin->$render();
             }
         }
     }
