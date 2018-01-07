@@ -42,10 +42,10 @@ class HookRender extends yii\base\Object
                 if (!$h) {
                     continue;
                 }
-                return $h->run();
+                $h->run();
             } else {
                 $render = $act[0];
-                echo $plugin->$render();
+                $plugin->$render();
             }
         }
     }
