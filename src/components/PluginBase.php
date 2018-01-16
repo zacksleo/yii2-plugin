@@ -96,7 +96,7 @@ class PluginBase extends Controller
      *
      * @return string          the rendering result. Null if the rendering result is not required.
      */
-    public function render($view, $data = null, $return = false)
+    public function render($view, $data = [], $return = false)
     {
         if (!$view) {
             return false;
