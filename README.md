@@ -4,10 +4,11 @@
 [![Total Downloads](https://poser.pugx.org/zacksleo/yii2-plugin/downloads)](https://packagist.org/packages/zacksleo/yii2-plugin)
 [![License](https://poser.pugx.org/zacksleo/yii2-plugin/license)](https://packagist.org/packages/zacksleo/yii2-plugin)
 
-Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](http://geoip.flagfox.net/flags/CN.png)](https://github.com/health901/Yii-Plugin/blob/master/README_cn.md)
+Languages: [English](#) [中文](https://github.com/zacksleo/yii2-plugin/blob/master/README_cn.md)
 
 ---
 ![cp](http://i.minus.com/ibnW5OhPBsUboA.jpg)
+
 ## FEATURES
 * This module provides a plugin pattern(Plug-and-Play) solustion.
 * No need to edit any file to configure plugin, it can install, uninstall, enable and disable at admin control panel.
@@ -18,38 +19,46 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](#) [![中文](htt
 ## Module Usage
 
 ### Install
+
+```
+   composer install --prefer-dist zacksleo/yii2-plugin   
+```   
+
 Add these array in the project config (if you have more than one entries,add these in both of them)
     
-    'components' => array(
-        'plugin' => array(
-            'class' => 'application.modules.plugin.components.HookRender', # HookRender path alias
-        ),
-    ),
+    'components' =>[
+        'plugin' => [
+            'class' => 'zacksleo\yii2\plugin\components\HookRender'
+        ],
+    ],
     
-    'modules' => array(
-        'plugin' => array(
-            'class' => 'application.modules.plugin.PluginModule', # Module path alias
-            'pluginRoot' => 'application.Plugins',   # Folder for plugins,make sure it is writeable.
-            'layout' => '//layouts/main',            # layout of admin control panel.
-        )
-    ),
+    'modules' => [
+    
+        'plugin' => [
+            'class' => 'zacksleo\yii2\plugin\Module',
+            'layout' => 'layout',
+            'layoutPath' => '@vendor/zacksleo/yii2-backend/src/views/layouts', #布局
+            'pluginRoot' => '@vendor/moguyun-plugins/', ##放置插件的namespace目录
+            'pluginNamespace' => '@moguyun/plugins',  ##放置插件的namespace
+        ],  
+    ]
 
 
 ### Create table
-Run sql statement in folder `sql` or apply migrate with yiic (see [Yii doc](http://www.yiiframework.com/doc/guide/1.1/en/database.migration#applying-migrations))
+
+```
+ yii migrate/up --migrationPath=@zacksleo/yii2/plugin/migrations
+```
 
 ### Link to plugin control panel
 The CP url is :
     
-    $this->createUrl(array('/plugin/PluginManage/index'));
+    $this->createUrl(['/plugin/plugin-manage/index']);
 
 ### Add hooks in the views
 
     #just add this to the position you want to be hooked
-    Yii::app()->plugin->render('Hook_Name');  # Name the Hook Position and told it to your plugin developers. 
-
-### Requirement
-* [Yii-bootstrap](http://www.cniska.net/yii-bootstrap/) (control panel's menu, if you do not want it, modify `views/layout/sidebar`)
+    Yii::$app->plugin->render('Hook_Name');   # Name the Hook Position and told it to your plugin developers. 
 
 ---
 
@@ -83,7 +92,7 @@ To implement the plugin and makes it work, you should inherit these method and i
         
         // return hooks array which this plugin want to hook, the value is the method's name
         // for the hook.
-        public function Hooks(){
+        public function hooks(){
             return array(
                 //'Hook Position Name' => 'hook method';
                 'Hook_Index_Header' => 'header',
@@ -127,7 +136,7 @@ To implement the plugin and makes it work, you should inherit these method and i
         }
         
         // Here you can put some code at the Installation and Uninstallation
-        public function Install() {
+        public function install() {
             //codes here
             $sql = "create `tbl_xxxxxx` .....";     # write sql with a table prefix 
             $this->query($sql,'tbl_');              # and pass it at method query
@@ -135,7 +144,7 @@ To implement the plugin and makes it work, you should inherit these method and i
             return true; #This method need to return true, or the installation will fail.
         }
         
-        public function Uninstall() {
+        public function uninstall() {
             // just like the method install.
             return true; #This method need to return true, or the uninstallation will fail.
         }

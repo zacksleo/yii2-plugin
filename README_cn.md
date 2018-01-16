@@ -1,6 +1,6 @@
 # Plugin Module
 
-Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.com/health901/Yii-Plugin/blob/master/README.md) [![中文](http://geoip.flagfox.net/flags/CN.png)](#)
+Languages: [English](https://github.com/zacksleo/yii2-plugin/blob/master/README.md) [中文](#)
 
 ---
 ![cp](http://i.minus.com/ibnW5OhPBsUboA.jpg)
@@ -13,38 +13,48 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
 
 ## 模块使用
 ### 安装
+
+```
+   composer install --prefer-dist zacksleo/yii2-plugin   
+```   
+
 将以下数组添加至项目配置文件 (如果有多个入口及配置文件,在所有可能用到该模块的配置文件中都加上)
+
     
-    'components' => array(
-        'plugin' => array(
-            'class' => 'application.modules.plugin.components.HookRender', # HookRender 文件的路径别名
-        ),
-    ),
+    'components' =>[
+        'plugin' => [
+            'class' => 'zacksleo\yii2\plugin\components\HookRender'
+        ],
+    ],
     
-    'modules' => array(
-        'plugin' => array(
-            'class' => 'application.modules.plugin.PluginModule', # 模块的路径别名
-            'pluginRoot' => 'application.Plugins',   # 配置插件存放的目录,确保该目录可读写,默认为 'application.Plugins'
-            'layout' => '//layouts/main',            # 管理面板布局文件,确保管理界面风格和整站一致,默认为 '//layouts/main'
-        )
-    ),
+    'modules' => [
+    
+        'plugin' => [
+            'class' => 'zacksleo\yii2\plugin\Module',
+            'layout' => 'layout',
+            'layoutPath' => '@vendor/zacksleo/yii2-backend/src/views/layouts', #布局
+            'pluginRoot' => '@vendor/moguyun-plugins/', ##放置插件的namespace目录
+            'pluginNamespace' => '@moguyun/plugins',  ##放置插件的namespace
+        ],  
+    ]
 
 ### 新建数据库表
-执行sql文件夹下的sql文件(注意替换表前缀),或者使用yiic运行数据库迁移文件`m131008_064034_plugin` (使用方法见: [Yii doc](http://www.yiiframework.com/doc/guide/1.1/zh_cn/database.migration#applying-migrations))
+
+```
+   yii migrate/up --migrationPath=@zacksleo/yii2/plugin/migrations
+```   
 
 ### 链接到插件管理界面
+
 管理面板链接地址如下 :
     
-    $this->createUrl(array('/plugin/PluginManage/index'));
+    $this->createUrl(['/plugin/plugin-manage/index']);
     
 ### 在视图文件中插入钩子
 
     # 在你要插入钩子的地方增加以下代码
-    Yii::app()->plugin->render('Hook_Name');  # Hook_Name 为该处钩子的名称
+    Yii::$app->plugin->render('Hook_Name');  # Hook_Name 为该处钩子的名称
     
-### 依赖文件
-* [Yii-bootstrap](http://www.cniska.net/yii-bootstrap/) (管理面板页菜单使用了bootstrap,如不想使用,请自行修改`views/layout/sidebar`)
-
 ---
 
 ## 插件开发
@@ -75,7 +85,7 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
         }
         
         // 返回要使用的钩子的数组,值是钩子对应的方法名
-        public function Hooks(){
+        public function hooks(){
             return array(
                 //'钩子名称' => '钩子方法';
                 'Hook_Index_Header' => 'header',
@@ -117,7 +127,7 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
         }
         
         // 继承下面两个函数可以在安装和卸载时进行额外的操作
-        public function Install() {
+        public function install() {
             //codes here
             $sql = "create `tbl_xxxxxx` .....";     # 使用带表前缀的sql语句
             $this->query($sql,'tbl_');              # 并将表前缀传入query函数
@@ -125,7 +135,7 @@ Languages: [![English](http://geoip.flagfox.net/flags/US.png)](https://github.co
             return true; #此方法必须返回true,否则安装无法正常完成
         }
         
-        public function Uninstall() {
+        public function uninstall() {
             // just like the method install.
             return true; #此方法必须返回true,否则卸载无法正常完成
         }
